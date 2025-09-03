@@ -5,45 +5,58 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import 'katex/dist/katex.min.css';
-import { InlineMath, BlockMath } from 'react-katex';
 import rehypePrism from 'rehype-prism-plus';
 import CodeRenderer from './CodeRunner';
 // import 'prismjs/themes/prism.css';
 // import 'github-markdown-css/github-markdown.css';
 
-const preprocessMarkdown = content => {
-  const rules = [
-    // --- Your existing fixes ---
-    [/\\\$/g, '$'], // \$ -> $
-    [/\\\$\$/g, '$$'], // \$\$ -> $$
-    [/\r\n/g, '\n'], // Normalize line endings
-    [/\\\\([a-zA-Z])/g, '\\$1'], // \\alpha -> \alpha
-    [/\$\s+/g, '$'], // Trim space after $
-    [/\s+\$/g, '$'], // Trim space before $
+function fixMath(content) {
+  let fixed = content;
 
-    // --- AI-specific quirks ---
-    [/\\min\*/g, '\\min_'], // \min* -> \min_
-    [/\\max\*/g, '\\max_'], // \max* -> \max_
-    [/\\\|([A-Za-z0-9]+)\\\|\*\*/g, '\\|$1\\|_*'], // \|X\|*\* -> \|X\|_*
-    [/([A-Za-z0-9])\*\{([^}]*)\}/g, '$1_{$2}'], // X*{ij} -> X_{ij}
-    [/\}\*/g, '}'], // ^{2}\* -> ^{2}
-    [/\*\*\$(.*?)\$\*\*/g, '$$$1$$'], // **$...$** -> $$...$$
-    [/\\([a-zA-Z]+)\*/g, '\\$1'], // \alpha\* -> \alpha
-  ];
-
-  return rules.reduce(
-    (acc, [pattern, replacement]) => acc.replace(pattern, replacement),
-    content
+  // 1. Fix AI-style inline math inside bold (**\$ ... \$**)
+  fixed = fixed.replace(
+    /\*\*\\\$(.+?)\\\$\*\*/gs,
+    (_, expr) => `**$${expr.trim()}$**`
   );
-};
+
+  // 2. Fix AI-style inline math inside italic (__\$ ... \$__)
+  fixed = fixed.replace(
+    /__\\\$(.+?)\\\$__/gs,
+    (_, expr) => `__$${expr.trim()}$__`
+  );
+
+  // 3. Fix AI-style block math inside bold (**\$\$ ... \$\$**)
+  fixed = fixed.replace(
+    /\*\*\\\$\$(.+?)\\\$\$\*\*/gs,
+    (_, expr) => `$$\n${expr.trim()}\n$$`
+  );
+
+  // 4. Fix normal escaped inline math (\$ ... \$)
+  fixed = fixed.replace(/\\\$(.+?)\\\$/gs, (_, expr) => `$${expr.trim()}$`);
+
+  // 5. Normalize block math (ensure $$ on its own line)
+  fixed = fixed.replace(
+    /\$\$\s*([\s\S]*?)\s*\$\$/g,
+    (_, expr) => `\n$$\n${expr.trim()}\n$$\n`
+  );
+
+  // 6. Fix triple-dollar AI bug ($$$ ... $$$)
+  fixed = fixed.replace(
+    /\$\$\$([\s\S]*?)\$\$\$/g,
+    (_, expr) => `\n$$\n${expr.trim()}\n$$\n`
+  );
+
+  // 7. Remove stray "math\n" prefixes from AI exports
+  fixed = fixed.replace(/(^|\n)math\s*\n/g, '$1');
+
+  return fixed;
+}
 
 const MarkdownRenderer = ({ content }) => {
-  const fixedContent = preprocessMarkdown(content);
-
   return (
     <div className="markdown-body  dark:prose-invert max-w-none p-6">
       <ReactMarkdown
-        children={fixedContent}
+        children={fixMath(content)}
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
           rehypeKatex,
@@ -51,6 +64,20 @@ const MarkdownRenderer = ({ content }) => {
           [rehypePrism, { ignoreMissing: true }],
         ]}
         components={{
+          // ✅ Render block math ($$ ... $$)
+          math({ value }) {
+            return (
+              <span className="math-block">
+                {/* rehype-katex will handle rendering */}
+                {value}
+              </span>
+            );
+          },
+          // ✅ Render inline math ($ ... $)
+          inlineMath({ value }) {
+            return <span className="math-inline">{value}</span>;
+          },
+          // ✅ Your existing code renderer
           code({ node, inline, className, children, ...props }) {
             return (
               <CodeRenderer
