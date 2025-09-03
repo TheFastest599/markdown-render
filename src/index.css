@@ -2,7 +2,7 @@
 
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: cmyk --default;
+  themes: light --default;
 }
 
 body {
@@ -58,14 +58,14 @@ body {
 
 /* Tables */
 .markdown-body table {
-  @apply my-4 w-full border-collapse;
+  @apply table table-xs sm:table-sm md:table-md table-zebra my-4 w-full overflow-x-auto border-collapse;
 }
 .markdown-body th,
 .markdown-body td {
-  @apply border border-base-300 px-3 py-2 text-left;
+  @apply text-left;
 }
 .markdown-body th {
-  @apply font-semibold bg-base-200;
+  @apply font-semibold;
 }
 
 /* Images */
@@ -79,7 +79,7 @@ body {
 
 /* Fenced code blocks */
 .markdown-body pre {
-  @apply my-2 p-2 rounded-lg overflow-x-auto font-mono text-sm;
+  @apply my-2  p-2 rounded-lg overflow-x-auto font-mono text-sm;
   @apply bg-base-200 text-base-content;
 }
 

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import mermaid from 'mermaid';
 import Viz from 'viz.js';
 import { Module, render } from 'viz.js/full.render.js';
+import { graphviz } from 'd3-graphviz';
 
 function extractText(children) {
   if (!children) return '';
@@ -14,10 +15,10 @@ function extractText(children) {
 }
 
 const CodeRenderer = ({ inline, className = '', children, ...props }) => {
-  // Extract first language (from "language-python code-highlight")
   const langMatch = className.match(/language-([\w-]+)/);
   const language = langMatch ? langMatch[1] : '';
   const code = extractText(children).trim();
+  const containerRef = useRef(null);
 
   // ✅ Inline code
   if (!language) {
@@ -31,72 +32,88 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
     );
   }
 
-  // ✅ Mermaid diagrams
+  // ✅ Detect Mermaid diagrams safely
   const isMermaid =
     language === 'mermaid' ||
-    code.startsWith('graph ') ||
-    code.startsWith('flowchart') ||
-    code.startsWith('sequenceDiagram') ||
-    code.startsWith('classDiagram') ||
-    code.startsWith('pie');
+    // Only auto-detect if NOT dot/graphviz
+    (language !== 'dot' &&
+      language !== 'graphviz' &&
+      (code.startsWith('graph ') ||
+        code.startsWith('flowchart') ||
+        code.startsWith('sequenceDiagram') ||
+        code.startsWith('classDiagram') ||
+        code.startsWith('erDiagram') ||
+        code.startsWith('gantt') ||
+        code.startsWith('journey') ||
+        code.startsWith('pie')));
 
   if (isMermaid) {
     const [svg, setSvg] = useState('');
 
     useEffect(() => {
       mermaid.initialize({ startOnLoad: false, theme: 'default' });
-
       const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
       mermaid
         .render(id, code)
         .then(({ svg }) => setSvg(svg))
-        .catch(err => {
-          console.error('Mermaid render error:', err);
-          setSvg(`<pre>Error rendering Mermaid: ${err.message}</pre>`);
-        });
+        .catch(err =>
+          console.error('Mermaid render error:', err, code, language)
+        );
     }, [code]);
 
     return (
       <div
-        className="my-4 bg-base-200 text-base-content rounded-lg p-2"
+        className="my-4 bg-base-200 text-base-content"
         dangerouslySetInnerHTML={{ __html: svg }}
       />
     );
   }
 
-  // ✅ Graphviz/DOT diagrams
+  // ✅ DOT / Graphviz
   if (language === 'dot' || language === 'graphviz') {
     const [svg, setSvg] = useState('');
+    const containerRef = useRef(null);
 
     useEffect(() => {
-      let fixedCode = code;
+      const engineMatch = code.match(/layout\s*=\s*(\w+);?/i);
+      const engine = engineMatch ? engineMatch[1].toLowerCase() : 'dot';
 
-      // Auto-fix: undirected graphs must use "--"
-      if (fixedCode.startsWith('graph') && fixedCode.includes('->')) {
-        fixedCode = fixedCode.replace(/->/g, '--');
+      if (['neato', 'fdp', 'sfdp', 'circo'].includes(engine)) {
+        // Use d3-graphviz
+        if (containerRef.current) {
+          containerRef.current.innerHTML = ''; // Clear old render
+          graphviz(containerRef.current, {
+            useWorker: false, // Important for Vite/CRA bundlers
+            engine, // Tell graphviz which layout to use
+          }).renderDot(code);
+        }
+      } else {
+        // Use viz.js for normal DOT
+        const viz = new Viz({ Module, render });
+        viz
+          .renderSVGElement(code)
+          .then(el => setSvg(el.outerHTML))
+          .catch(err => {
+            console.error('Graphviz render failed:', err);
+            setSvg(`<pre>Error rendering DOT: ${err.message}</pre>`);
+          });
       }
-
-      const viz = new Viz({ Module, render });
-      viz
-        .renderSVGElement(fixedCode)
-        .then(el => setSvg(el.outerHTML))
-        .catch(err => {
-          console.error('Graphviz render failed:', err);
-          setSvg(`<pre>Error rendering DOT: ${err.message}</pre>`);
-        });
     }, [code]);
 
     return (
-      <div
-        className="my-4 p-4 rounded-lg shadow bg-base-200 text-base-content"
-        dangerouslySetInnerHTML={{ __html: svg }}
-      />
+      <div className=" bg-base-200 text-base-content">
+        {svg ? (
+          <div dangerouslySetInnerHTML={{ __html: svg }} />
+        ) : (
+          <div ref={containerRef} />
+        )}
+      </div>
     );
   }
 
-  // ✅ Default: Prism-highlighted code
+  // ✅ Default code
   return (
-    <div className="my-0">
+    <div className="my-0 ">
       <span className="text-xs block">{language}</span>
       <pre
         className={`rounded-lg overflow-x-auto font-mono text-sm bg-base-200 text-base-content ${className}`}
