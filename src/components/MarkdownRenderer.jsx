@@ -54,7 +54,7 @@ function fixMath(content) {
 
 const MarkdownRenderer = ({ content }) => {
   return (
-    <div className="markdown-body  dark:prose-invert max-w-none p-6">
+    <div className="markdown-body  dark:prose-invert max-w-6xl px-6 mx-auto">
       <ReactMarkdown
         children={fixMath(content)}
         remarkPlugins={[remarkGfm, remarkMath]}
