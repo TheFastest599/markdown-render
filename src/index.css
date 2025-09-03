@@ -2,7 +2,7 @@
 
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: lemonade --default;
+  themes: cmyk --default;
 }
 
 body {
@@ -73,21 +73,13 @@ body {
   @apply max-w-full rounded-lg shadow-md my-4;
 }
 
-/* All code blocks with a language .markdown-body pre[class*='language-'] {
-  @apply bg-base-200 rounded-lg p-4 overflow-x-auto font-mono text-sm;
-}
-
-.markdown-body code[class*='language-'] {
-  @apply bg-base-200 text-base-content font-mono text-sm px-1 py-0.5 rounded;
-} */
-
 /* ===============================
    Markdown Code Styling (DaisyUI)
    =============================== */
 
 /* Fenced code blocks */
 .markdown-body pre {
-  @apply my-4 p-4 rounded-lg overflow-x-auto font-mono text-sm;
+  @apply my-2 p-2 rounded-lg overflow-x-auto font-mono text-sm;
   @apply bg-base-200 text-base-content;
 }
 
@@ -99,82 +91,78 @@ body {
 
 /* Reset inline code styles inside fenced blocks */
 .markdown-body pre code {
-  @apply bg-transparent p-0 text-inherit;
+  @apply bg-transparent p-0 m-0 text-inherit;
 }
 
-/* .markdown-body pre[class*='language-'],
-.markdown-body code[class*='language-'] {
-  @apply bg-base-200;
-} */
 /* ===============================
    Syntax Highlighting (Prism tokens)
    =============================== */
 
-/* Comments, prolog, doctype, cdata
+/* Comments, prolog, doctype, cdata */
 .markdown-body .token.comment,
 .markdown-body .token.prolog,
 .markdown-body .token.doctype,
 .markdown-body .token.cdata {
   @apply text-base-content/60;
-} */
+}
 
 /* Punctuation */
-/* .markdown-body .token.punctuation {
+.markdown-body .token.punctuation {
   @apply text-base-content;
-} */
+}
 
 /* Properties, tags, constants, symbols, deleted */
-/* .markdown-body .token.property,
+.markdown-body .token.property,
 .markdown-body .token.tag,
 .markdown-body .token.constant,
 .markdown-body .token.symbol,
 .markdown-body .token.deleted {
   @apply text-error;
-} */
+}
 
 /* Booleans and numbers */
-/* .markdown-body .token.boolean,
+.markdown-body .token.boolean,
 .markdown-body .token.number {
   @apply text-info;
-} */
+}
 
 /* Strings, selectors, attrs, builtins, inserted */
-/* .markdown-body .token.selector,
+.markdown-body .token.selector,
 .markdown-body .token.attr-name,
 .markdown-body .token.string,
 .markdown-body .token.char,
 .markdown-body .token.builtin,
 .markdown-body .token.inserted {
   @apply text-success;
-} */
+}
 
 /* Operators, entities, URLs */
-/* .markdown-body .token.operator,
+.markdown-body .token.operator,
 .markdown-body .token.entity,
 .markdown-body .token.url {
   @apply text-warning;
-} */
+}
 
 /* Keywords, at-rules, attr-values */
-/* .markdown-body .token.atrule,
+.markdown-body .token.atrule,
 .markdown-body .token.attr-value,
 .markdown-body .token.keyword {
   @apply text-error;
-} */
+}
 
 /* Functions */
-/* .markdown-body .token.function {
+.markdown-body .token.function {
   @apply text-secondary;
-} */
+}
 
 /* Classes */
-/* .markdown-body .token.class-name {
+.markdown-body .token.class-name {
   @apply text-info;
-} */
+}
 
 /* Regex, important, variables */
-/* .markdown-body .token.regex,
+.markdown-body .token.regex,
 .markdown-body .token.important,
 .markdown-body .token.variable {
   @apply text-warning;
-} */
+}

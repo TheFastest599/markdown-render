@@ -6,6 +6,7 @@ import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import 'katex/dist/katex.min.css';
 import rehypePrism from 'rehype-prism-plus';
+import CodeRenderer from './CodeRunner';
 // import 'prismjs/themes/prism.css';
 // import 'github-markdown-css/github-markdown.css';
 
@@ -40,13 +41,27 @@ const MarkdownRenderer = ({ content }) => {
   return (
     <div className="markdown-body  dark:prose-invert max-w-none p-6">
       <ReactMarkdown
-        children={fixedContent}
+        children={content}
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
           rehypeKatex,
           rehypeRaw,
-          // [rehypePrism, { ignoreMissing: true }],
+          [rehypePrism, { ignoreMissing: true }],
         ]}
+        components={{
+          code({ node, inline, className, children, ...props }) {
+            return (
+              <CodeRenderer
+                className={className}
+                inline={inline}
+                node={node}
+                {...props}
+              >
+                {children}
+              </CodeRenderer>
+            );
+          },
+        }}
       />
     </div>
   );
