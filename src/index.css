@@ -8,3 +8,173 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+
+/* markdown body */
+.markdown-body h1 {
+  @apply text-4xl font-bold mt-8 mb-4;
+}
+
+.markdown-body h2 {
+  @apply text-3xl font-bold mt-7 mb-4;
+}
+
+.markdown-body h3 {
+  @apply text-2xl font-bold mt-6 mb-3;
+}
+
+.markdown-body h4 {
+  @apply text-xl font-semibold mt-5 mb-3;
+}
+
+.markdown-body h5 {
+  @apply text-lg font-semibold mt-4 mb-2;
+}
+
+.markdown-body h6 {
+  @apply text-base font-medium mt-3 mb-2;
+}
+
+/* Paragraphs */
+.markdown-body p {
+  @apply my-3 leading-relaxed;
+}
+
+/* Lists */
+.markdown-body ul,
+.markdown-body ol {
+  @apply my-3 pl-6 list-disc;
+}
+.markdown-body ol {
+  @apply list-decimal;
+}
+.markdown-body li + li {
+  @apply mt-1;
+}
+
+/* Blockquotes */
+.markdown-body blockquote {
+  @apply my-4 pl-4 border-l-4 border-base-300 text-base-content/80 italic;
+}
+
+/* Tables */
+.markdown-body table {
+  @apply my-4 w-full border-collapse;
+}
+.markdown-body th,
+.markdown-body td {
+  @apply border border-base-300 px-3 py-2 text-left;
+}
+.markdown-body th {
+  @apply font-semibold bg-base-200;
+}
+
+/* Images */
+.markdown-body img {
+  @apply max-w-full rounded-lg shadow-md my-4;
+}
+
+/* All code blocks with a language .markdown-body pre[class*='language-'] {
+  @apply bg-base-200 rounded-lg p-4 overflow-x-auto font-mono text-sm;
+}
+
+.markdown-body code[class*='language-'] {
+  @apply bg-base-200 text-base-content font-mono text-sm px-1 py-0.5 rounded;
+} */
+
+/* ===============================
+   Markdown Code Styling (DaisyUI)
+   =============================== */
+
+/* Fenced code blocks */
+.markdown-body pre {
+  @apply my-4 p-4 rounded-lg overflow-x-auto font-mono text-sm;
+  @apply bg-base-200 text-base-content;
+}
+
+/* Inline code */
+.markdown-body code {
+  @apply px-1 py-0.5 rounded font-mono text-sm;
+  @apply bg-base-200 text-secondary;
+}
+
+/* Reset inline code styles inside fenced blocks */
+.markdown-body pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+
+/* .markdown-body pre[class*='language-'],
+.markdown-body code[class*='language-'] {
+  @apply bg-base-200;
+} */
+/* ===============================
+   Syntax Highlighting (Prism tokens)
+   =============================== */
+
+/* Comments, prolog, doctype, cdata
+.markdown-body .token.comment,
+.markdown-body .token.prolog,
+.markdown-body .token.doctype,
+.markdown-body .token.cdata {
+  @apply text-base-content/60;
+} */
+
+/* Punctuation */
+/* .markdown-body .token.punctuation {
+  @apply text-base-content;
+} */
+
+/* Properties, tags, constants, symbols, deleted */
+/* .markdown-body .token.property,
+.markdown-body .token.tag,
+.markdown-body .token.constant,
+.markdown-body .token.symbol,
+.markdown-body .token.deleted {
+  @apply text-error;
+} */
+
+/* Booleans and numbers */
+/* .markdown-body .token.boolean,
+.markdown-body .token.number {
+  @apply text-info;
+} */
+
+/* Strings, selectors, attrs, builtins, inserted */
+/* .markdown-body .token.selector,
+.markdown-body .token.attr-name,
+.markdown-body .token.string,
+.markdown-body .token.char,
+.markdown-body .token.builtin,
+.markdown-body .token.inserted {
+  @apply text-success;
+} */
+
+/* Operators, entities, URLs */
+/* .markdown-body .token.operator,
+.markdown-body .token.entity,
+.markdown-body .token.url {
+  @apply text-warning;
+} */
+
+/* Keywords, at-rules, attr-values */
+/* .markdown-body .token.atrule,
+.markdown-body .token.attr-value,
+.markdown-body .token.keyword {
+  @apply text-error;
+} */
+
+/* Functions */
+/* .markdown-body .token.function {
+  @apply text-secondary;
+} */
+
+/* Classes */
+/* .markdown-body .token.class-name {
+  @apply text-info;
+} */
+
+/* Regex, important, variables */
+/* .markdown-body .token.regex,
+.markdown-body .token.important,
+.markdown-body .token.variable {
+  @apply text-warning;
+} */

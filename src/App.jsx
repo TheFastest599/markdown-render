@@ -35,7 +35,7 @@ $$
     reader.readAsText(file);
   };
   return (
-    <div className="App">
+    <div className="App bg-base-100 ">
       <input
         type="file"
         className="file-input"

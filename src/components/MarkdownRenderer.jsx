@@ -5,7 +5,9 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import 'katex/dist/katex.min.css';
-import 'github-markdown-css/github-markdown.css';
+import rehypePrism from 'rehype-prism-plus';
+// import 'prismjs/themes/prism.css';
+// import 'github-markdown-css/github-markdown.css';
 
 const preprocessMarkdown = content => {
   const rules = [
@@ -36,11 +38,15 @@ const preprocessMarkdown = content => {
 const MarkdownRenderer = ({ content }) => {
   const fixedContent = preprocessMarkdown(content);
   return (
-    <div className="markdown-body p-6">
+    <div className="markdown-body  dark:prose-invert max-w-none p-6">
       <ReactMarkdown
         children={fixedContent}
         remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[rehypeKatex, rehypeRaw]}
+        rehypePlugins={[
+          rehypeKatex,
+          rehypeRaw,
+          // [rehypePrism, { ignoreMissing: true }],
+        ]}
       />
     </div>
   );
