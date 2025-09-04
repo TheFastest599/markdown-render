@@ -48,7 +48,7 @@ function Drawer() {
             <ul className="menu bg-base-200 rounded-box w-full">
               <li>
                 <h2 className="menu-title">Contents</h2>
-                <ul>
+                <ul className="max-h-96 overflow-y-auto">
                   {contents.map(item => (
                     <li key={item.id}>
                       <a

@@ -39,7 +39,7 @@ function Navbar() {
     setTheme(newTheme);
   };
   return (
-    <nav className="navbar fixed top-0 z-10 bg-base-100 " style={navStatus()}>
+    <nav className="navbar fixed top-0 z-10 bg-base-100" style={navStatus()}>
       <div className="flex-none">
         <label
           className="btn btn-square btn-ghost btn-lg drawer-button"
@@ -65,7 +65,7 @@ function Navbar() {
         <a className="btn btn-ghost btn-lg">Markdown Renderer</a>
       </div>
       <div className="flex-none">
-        <label className="swap btn btn-lg btn-ghost btn-circle swap-rotate me-2">
+        <label className="swap btn btn-lg btn-ghost btn-circle swap-rotate me-2 sm:me-6">
           {/* this hidden checkbox controls the state */}
           <input
             type="checkbox"
