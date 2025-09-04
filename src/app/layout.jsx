@@ -1,6 +1,9 @@
 import { Poppins } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
+import Navbar from '@/components/Navbar';
+import Drawer from '@/components/Drawer';
+import AddContent from '@/components/AddContent';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -14,21 +17,32 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} antialiased`}>
+        <Navbar />
+        <div className="pt-16" />
         {children}
-        {/* <Script id="theme-script" strategy="beforeInteractive">
+        <AddContent />
+        <Drawer />
+        <Script id="theme-script" strategy="beforeInteractive">
           {`
     (function () {
-      var theme =
-        localStorage.getItem('theme') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'night'
-          : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
+      try {
+        var stored = localStorage.getItem('markdown-renderer');
+        var theme = 'light';
+        if (stored) {
+          var parsed = JSON.parse(stored);
+          theme = parsed.state?.theme || 'light';
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+        document.cookie = 'theme=' + theme + '; path=/; max-age=31536000';
+      } catch (e) {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.cookie = 'theme=light; path=/; max-age=31536000';
+      }
     })();
   `}
-        </Script> */}
+        </Script>
       </body>
     </html>
   );
