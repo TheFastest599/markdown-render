@@ -63,7 +63,8 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
 
     return (
       <div
-        className="my-4 bg-base-200 text-base-content"
+        className="my-4 bg-base-200 text-base-content  overflow-x-auto rounded-lg p-2 sm:p-4"
+        data-theme="light"
         dangerouslySetInnerHTML={{ __html: svg }}
       />
     );
@@ -101,7 +102,10 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
     }, [code]);
 
     return (
-      <div className=" bg-base-200 text-base-content">
+      <div
+        className=" bg-base-200 text-base-content overflow-x-auto rounded-lg p-2 sm:p-4"
+        data-theme="light"
+      >
         {svg ? (
           <div dangerouslySetInnerHTML={{ __html: svg }} />
         ) : (
@@ -116,7 +120,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
     <div className="my-0 ">
       <span className="text-xs block">{language}</span>
       <pre
-        className={`rounded-lg overflow-x-auto font-mono text-sm bg-base-200 text-base-content ${className}`}
+        className={`rounded-lg overflow-x-auto font-mono  bg-base-200 text-base-content ${className}`}
       >
         <code className={className} {...props}>
           {children}

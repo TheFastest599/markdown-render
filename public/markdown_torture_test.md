@@ -1,5 +1,47 @@
 # Markdown Torture Test 😈
 
+## Some Text
+
+**Exam Material Notes**
+These notes are designed for easy learning and exam preparation. Concepts are broken down with definitions, algorithms, pros/cons, formulas, and examples. Key formulas are bolded for quick recall. Diagrams are included via generated visuals (cite them as [number] – sketch similar in exams). Focus on derivations, comparisons, and applications for long-answer questions. Practice implementing in Python (e.g., scikit-learn for K-means/PCA).
+
+Unsupervised learning involves finding patterns in unlabeled data, unlike supervised learning which uses labels.
+
+---
+
+## 1. Clustering
+
+Clustering groups similar data points without labels. It's useful for segmentation, anomaly detection, and data exploration.
+
+### 1.1 K-means
+
+- **Definition**: Partitions data into K clusters by minimizing the within-cluster variance (objective: **\$ J = \sum*{i=1}^{K} \sum*{x \in C_i} \| x - \mu_i \|^2 \$**, where $\mu_i$ is the centroid).
+- **Algorithm Steps**:
+
+1. Initialize K centroids (randomly or via K-means++ for better results).
+2. Assign each point to the nearest centroid (using Euclidean distance).
+3. Update centroids as the mean of points in each cluster.
+4. Repeat until convergence (e.g., centroids don't change much).
+
+- **Hyperparameters**: K (choose via elbow method or silhouette score).
+- **Advantages**: Simple, fast for large datasets.
+- **Disadvantages**: Assumes spherical clusters; sensitive to outliers and initialization; requires predefined K.
+- **Example**: Customer segmentation based on purchase history.
+- **Evaluation**: Inertia (J), Davies-Bouldin index.
+
+(see the generated image above)
+
+### 1.2 Kernel K-means
+
+- **Definition**: Extends K-means to non-linear clusters by mapping data to a higher-dimensional space using a kernel function (e.g., RBF: **\$ K(x, y) = \exp(-\gamma \| x - y \|^2) \$**).
+- **How it Works**: Computes distances in kernel space without explicit mapping (kernel trick). The objective is similar to K-means but uses kernel matrix.
+- **Algorithm**: Similar to K-means, but assignments use kernel-based distances.
+- **Advantages**: Handles complex shapes (e.g., moons or circles).
+- **Disadvantages**: Higher computational cost; choice of kernel and parameters is crucial.
+- **Example**: Image segmentation where clusters are not linearly separable.
+
+---
+
 ## 1. Text Formatting
 
 - _Italic_

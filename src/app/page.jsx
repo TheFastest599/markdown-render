@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import './App.css';
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { IoIosAdd } from 'react-icons/io';
+import MarkdownRenderer from '@/components/MarkdownRenderer';
 
-import MarkdownRenderer from './components/MarkdownRenderer';
-
-function App() {
-  const [count, setCount] = useState(0);
+export default function Home() {
   const [mdContent, setMdContent] = useState(`
 # Example Markdown
 
@@ -33,26 +33,35 @@ $$
     };
     reader.readAsText(file);
   };
-  const [theme, setTheme] = useState(
-    document.documentElement.getAttribute('data-theme') || 'light'
-  );
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      const currentTheme =
+        document.documentElement.getAttribute('data-theme') || 'light';
+      setTheme(currentTheme);
+    }
+  }, []);
   const handleThemeChange = e => {
     const checked = e.target.checked;
     const newTheme = checked ? 'night' : 'light';
     setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', newTheme);
+    }
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('theme', newTheme);
+    }
   };
   return (
-    <div className="App bg-base-100 text-sm sm:text-md">
-      {/* Navbar */}
-      {/* <input
+    <div className="App bg-base-100 text-sm sm:text-base lg:text-lg">
+      <input
         type="file"
         className="file-input"
         accept=".md,.txt"
         onChange={handleFileChange}
-      /> */}
-      <div className="navbar bg-base-100">
+      />
+      <nav className="navbar bg-base-100">
         <div className="flex-1">
           <a className="btn btn-ghost text-xl">Markdown Renderer</a>
         </div>
@@ -89,17 +98,10 @@ $$
             </svg>
           </label>
         </div>
-      </div>
-      {/* ------------------------------------------ */}
-      {/* <input
-        type="file"
-        className="file-input"
-        accept=".md,.txt"
-        onChange={handleFileChange}
-      /> */}
-      <MarkdownRenderer content={mdContent} />
+      </nav>
+      <main>
+        <MarkdownRenderer content={mdContent} />
+      </main>
     </div>
   );
 }
-
-export default App;

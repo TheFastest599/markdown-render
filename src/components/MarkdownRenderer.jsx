@@ -6,7 +6,7 @@ import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
 import 'katex/dist/katex.min.css';
 import rehypePrism from 'rehype-prism-plus';
-import CodeRenderer from './CodeRunner';
+import CodeRenderer from '@/components/CodeRunner';
 // import 'prismjs/themes/prism.css';
 // import 'github-markdown-css/github-markdown.css';
 
