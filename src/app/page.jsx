@@ -28,7 +28,7 @@ export default function Home() {
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
     contentRef: printRef,
-    documentTitle: selectedContent.name.split('.')[0] || 'Document',
+    documentTitle: selectedContent?.name?.split('.')[0] || 'Document',
     removeAfterPrint: false,
   });
 
