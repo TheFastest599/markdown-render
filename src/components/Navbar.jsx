@@ -56,11 +56,11 @@ function Navbar() {
 
   // Reset navbar visibility on route change
   useEffect(() => {
-    // Force navbar to be visible when route changes
+    // Remove scroll animation classes and force navbar visible on route change
     const navbar = document.querySelector('.navbar');
     if (navbar) {
-      navbar.style.visibility = 'visible';
-      navbar.style.transform = 'translateY(0)';
+      navbar.classList.remove('-translate-y-full', 'opacity-0');
+      navbar.classList.add('translate-y-0', 'opacity-100');
     }
   }, [pathname]);
 

@@ -27,6 +27,7 @@ export default function Home() {
   // Instead of content: () => printRef.current
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
+
     contentRef: printRef,
     documentTitle: selectedContent?.name?.split('.')[0] || 'Document',
     removeAfterPrint: false,
@@ -81,7 +82,7 @@ export default function Home() {
             {/* Print Preview */}
             <div
               ref={printRef}
-              className="prose max-w-none print:p-8 print-transform"
+              className="prose max-w-none print-transform"
               data-date={new Date().toLocaleDateString()}
               data-name={selectedContent.name}
             >

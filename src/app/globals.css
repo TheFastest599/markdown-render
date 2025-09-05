@@ -173,23 +173,51 @@ body {
 }
 
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 16mm 10mm 16mm 10mm; /* adjust as needed */
+  }
+  html,
+  body {
+    width: 210mm;
+    height: 297mm;
+    /* Prevent unwanted scaling on mobile */
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow: visible !important;
+  }
+  /* Optional: prevent DaisyUI/Tailwind backgrounds from leaking */
+  body,
+  .prose,
+  .print-transform {
+    background: #fff !important;
+    color: #222 !important;
+    box-shadow: none !important;
+  }
   .print-transform::before {
-    content: 'https://markdownrender.vercel.app |  Markdown Render '
-      attr(data-name);
+    content: attr(data-name)
+      ' | Markdown Render | https://markdownrender.vercel.app';
     display: block;
     text-align: center;
-    font-size: 0.6em;
+    font-size: 0.7em;
     font-weight: normal;
     color: #222;
-    letter-spacing: 0.05em;
-    transform: none;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.2em;
+    padding: 0;
   }
   .print-transform::after {
     content: 'Printed on ' attr(data-date);
     display: block;
     text-align: right;
-    margin-top: 0.5rem;
-    font-size: 0.6em;
-    color: rgb(0, 0, 0);
+    margin-top: 0.2em;
+    font-size: 0.7em;
+    color: #000;
+    padding: 0;
+  }
+
+  .print-transform,
+  .print-transform * {
+    font-family: 'Poppins', Arial, Helvetica, sans-serif !important;
   }
 }
