@@ -194,27 +194,6 @@ body {
     color: #222 !important;
     box-shadow: none !important;
   }
-  .print-transform::before {
-    content: attr(data-name)
-      ' | Markdown Render | https://markdownrender.vercel.app';
-    display: block;
-    text-align: center;
-    font-size: 0.7em;
-    font-weight: normal;
-    color: #222;
-    letter-spacing: 0.03em;
-    margin-bottom: 0.2em;
-    padding: 0;
-  }
-  .print-transform::after {
-    content: 'Printed on ' attr(data-date);
-    display: block;
-    text-align: right;
-    margin-top: 0.2em;
-    font-size: 0.7em;
-    color: #000;
-    padding: 0;
-  }
 
   .print-transform,
   .print-transform * {
