@@ -6,6 +6,7 @@ import Drawer from '@/components/Drawer';
 import AddContent from '@/components/AddContent';
 import Loading from '@/components/Loading';
 import HydrationLoader from '@/components/HydrationLoader';
+import { AnalyticsWrapper } from '@/components/AnalyticsTools';
 import { Analytics } from '@vercel/analytics/next';
 
 const poppins = Poppins({
@@ -54,6 +55,10 @@ export default function RootLayout({ children }) {
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Markdown Render" />
+        <meta
+          name="google-site-verification"
+          content="ERTXt8EGV0W84ALInFRKJgvq7Oz1hD1JPv0a90URuk8"
+        />
       </head>
       <body className={`${poppins.variable} antialiased bg-base-100`}>
         <Navbar />
@@ -63,6 +68,7 @@ export default function RootLayout({ children }) {
         <AddContent />
         <Drawer />
         <Analytics />
+        <AnalyticsWrapper />
         <footer className="footer footer-center text-base-content p-4">
           <aside>
             <div className="flex items-center gap-2">
@@ -125,8 +131,7 @@ export default function RootLayout({ children }) {
           </aside>
         </footer>
         <Script id="theme-script" strategy="beforeInteractive">
-          {`
-    (function () {
+          {`(function () {
       try {
         var theme = localStorage.getItem('theme');
         if (!theme) {

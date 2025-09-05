@@ -171,3 +171,25 @@ body {
   vertical-align: middle;
   line-height: 1.5;
 }
+
+@media print {
+  .print-transform::before {
+    content: 'https://markdownrender.vercel.app |  Markdown Render '
+      attr(data-name);
+    display: block;
+    text-align: center;
+    font-size: 0.6em;
+    font-weight: normal;
+    color: #222;
+    letter-spacing: 0.05em;
+    transform: none;
+  }
+  .print-transform::after {
+    content: 'Printed on ' attr(data-date);
+    display: block;
+    text-align: right;
+    margin-top: 0.5rem;
+    font-size: 0.6em;
+    color: rgb(0, 0, 0);
+  }
+}

@@ -4,7 +4,7 @@
   "description": "A powerful, modern markdown render tool with theme switching, file uploads, and PDF export.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background_color": "#3b82f6",
   "theme_color": "#3b82f6",
   "orientation": "portrait-primary",
   "scope": "/",

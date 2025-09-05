@@ -30,29 +30,29 @@ function Navbar() {
 
   // Scroll direction hook
   const { scrollDirection } = useScroll();
-  const styles = {
-    active: {
-      visibility: 'visible',
-      transition: 'all 0.3s',
-      width: '100vw',
-    },
-    hidden: {
-      visibility: 'hidden',
-      transition: 'all 0.3s',
-      transform: 'translateY(-100%)',
-      width: '100vw',
-    },
-  };
+  // const styles = {
+  //   active: {
+  //     visibility: 'visible',
+  //     transition: 'all 0.3s',
+  //     width: '100vw',
+  //   },
+  //   hidden: {
+  //     visibility: 'hidden',
+  //     transition: 'all 0.3s',
+  //     transform: 'translateY(-100%)',
+  //     width: '100vw',
+  //   },
+  // };
 
-  const navStatus = () => {
-    if (scrollDirection === 'down') {
-      return styles.active;
-    } else if (scrollDirection === undefined) {
-      return styles.active;
-    } else {
-      return styles.hidden;
-    }
-  };
+  // const navStatus = () => {
+  //   if (scrollDirection === 'down') {
+  //     return styles.active;
+  //   } else if (scrollDirection === undefined) {
+  //     return styles.active;
+  //   } else {
+  //     return styles.hidden;
+  //   }
+  // };
 
   // Reset navbar visibility on route change
   useEffect(() => {
@@ -70,7 +70,17 @@ function Navbar() {
     setTheme(newTheme);
   };
   return (
-    <nav className="navbar fixed top-0 z-10 bg-base-100" style={navStatus()}>
+    <nav
+      className={`
+    navbar fixed top-0 z-10 bg-base-100
+    transition-all duration-300
+    ${
+      scrollDirection === 'up'
+        ? '-translate-y-full opacity-0'
+        : 'translate-y-0 opacity-100'
+    }
+  `}
+    >
       <div className="flex-none">
         <label
           className="btn btn-square btn-ghost btn-lg drawer-button"

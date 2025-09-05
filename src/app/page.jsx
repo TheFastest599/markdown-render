@@ -1,22 +1,19 @@
 'use client';
 
-import React, { useState, useEffect, use } from 'react';
+import React, { useEffect, useRef, useMemo, use } from 'react';
 import Link from 'next/link';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import useGlobalStore from '@/stores/globalStore';
-import { initGA, trackPageView, trackEvent } from '@/hooks/useAnalytics';
+import { trackEvent } from '@/hooks/useAnalytics';
+import { useReactToPrint } from 'react-to-print';
 
 export default function Home() {
-  const { contents, selectedId, loadExampleContent } = useGlobalStore();
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      initGA();
-      trackPageView(window.location.pathname, document.title);
-    }
-  }, []);
+  const { contents, selectedId, loadExampleContent, toggleLoading, theme } =
+    useGlobalStore();
 
   const selectedContent = contents.find(c => c.id === selectedId);
+
+  const printRef = useRef();
 
   // Update document title based on selected content
   useEffect(() => {
@@ -26,6 +23,14 @@ export default function Home() {
       document.title = 'Markdown Render';
     }
   }, [selectedContent]);
+
+  // Instead of content: () => printRef.current
+  const handlePrint = useReactToPrint({
+    content: () => printRef.current,
+    contentRef: printRef,
+    documentTitle: selectedContent.name.split('.')[0] || 'Document',
+    removeAfterPrint: false,
+  });
 
   return (
     <div className="App  text-sm sm:text-base lg:text-lg">
@@ -45,9 +50,16 @@ export default function Home() {
               </div>
               {/* Print Button */}
               <button
-                className="btn btn-sm btn-circle btn-ghost"
-                onClick={() => window.print()}
-                title="Print to PDF"
+                className="btn btn-sm btn-circle btn-ghost tooltip tooltip-bottom"
+                data-tip="Print to PDF"
+                onClick={() => {
+                  if (theme === 'night') {
+                    alert('Please switch to Light theme before printing.');
+                    return;
+                  }
+                  handlePrint();
+                  trackEvent('Print to PDF', 'Engagement');
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +78,16 @@ export default function Home() {
                 </svg>
               </button>
             </div>
-            <MarkdownRenderer content={selectedContent.content} />
+            {/* Print Preview */}
+            <div
+              ref={printRef}
+              className="prose max-w-none print:p-8 print-transform"
+              data-date={new Date().toLocaleDateString()}
+              data-name={selectedContent.name}
+            >
+              {/* Markdown Render */}
+              <MarkdownRenderer content={selectedContent.content} />
+            </div>
           </>
         )}
         {!selectedContent && (
