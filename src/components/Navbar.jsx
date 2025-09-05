@@ -69,6 +69,8 @@ function Navbar() {
     const newTheme = checked ? 'night' : 'light';
     setTheme(newTheme);
   };
+
+  // Navbar
   return (
     <nav
       className={`
