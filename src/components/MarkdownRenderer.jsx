@@ -90,6 +90,17 @@ const MarkdownRenderer = ({ content }) => {
               </CodeRenderer>
             );
           },
+          a: ({ href, children, ...props }) => (
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+              {...props}
+            >
+              {children}
+            </a>
+          ),
         }}
       />
     </div>

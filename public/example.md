@@ -48,6 +48,7 @@ Clustering groups similar data points without labels. It's useful for segmentati
 - **Bold**
 - ~~Strikethrough~~
 - `Inline code`
+- [GitHub](https://github.com)
 
 > Blockquote example with **bold** and _italic_ inside.
 

@@ -3,6 +3,7 @@ import mermaid from 'mermaid';
 import Viz from 'viz.js';
 import { Module, render } from 'viz.js/full.render.js';
 import { graphviz } from 'd3-graphviz';
+import AutoLinkText from './AutoLinkText';
 
 function extractText(children) {
   if (!children) return '';
@@ -27,7 +28,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
         className="px-1 py-0.5 rounded font-mono text-sm bg-base-200 text-secondary"
         {...props}
       >
-        {children}
+        <AutoLinkText>{children} </AutoLinkText>
       </code>
     );
   }
