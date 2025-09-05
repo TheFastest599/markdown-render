@@ -13,15 +13,15 @@ const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 export const metadata = {
-  title: 'Markdown Renderer',
+  title: 'Markdown Render',
   description:
-    'A powerful, modern markdown renderer with theme switching, file uploads, content management, and PDF export. Built with Next.js and Tailwind CSS.',
+    'A powerful, modern markdown render tool with theme switching, file uploads, content management, and PDF export. Built with Next.js and Tailwind CSS.',
   keywords:
     'markdown, renderer, editor, viewer, pdf export, theme switcher, file upload, content management, markdown to html, markdown parser, markdown preview, text editor, document viewer, file converter, syntax highlighting, code blocks, responsive design, dark mode, light mode, next.js, tailwind css, react, web app, online tool, documentation, notes, writing, publishing, export, print, save as pdf, markdown syntax, markup language, text formatting, rich text, document processing, content creation, technical writing, blog posts, readme files, github markdown, developer tools, text converter',
   author: 'Anirban Saha',
   creator: 'Anirban Saha',
   openGraph: {
-    title: 'Markdown Renderer',
+    title: 'Markdown Render',
     description:
       'Render and manage your markdown files seamlessly with modern UI',
     type: 'website',
@@ -29,7 +29,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Markdown Renderer',
+    title: 'Markdown Render',
     description: 'Render and manage your markdown files seamlessly',
     creator: '@TheFastest599',
   },

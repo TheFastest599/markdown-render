@@ -12,18 +12,18 @@ export default function Home() {
   // Update document title based on selected content
   useEffect(() => {
     if (selectedContent) {
-      document.title = `${selectedContent.name} - Markdown Renderer`;
+      document.title = `${selectedContent.name} - Markdown Render`;
     } else {
-      document.title = 'Markdown Renderer';
+      document.title = 'Markdown Render';
     }
   }, [selectedContent]);
 
   // Update document title based on selected content
   useEffect(() => {
     if (selectedContent) {
-      document.title = `${selectedContent.name} - Markdown Renderer`;
+      document.title = `${selectedContent.name} - Markdown Render`;
     } else {
-      document.title = 'Markdown Renderer | Anirban Saha';
+      document.title = 'Markdown Render | Anirban Saha';
     }
   }, [selectedContent]);
 

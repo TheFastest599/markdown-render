@@ -1,10 +1,10 @@
-# 📝 Markdown Renderer
+# 📝 Markdown Render
 
 <div align="center">
 
-![Markdown Renderer Hero](https://img.shields.io/badge/Markdown-Renderer-blue?style=for-the-badge&logo=markdown&logoColor=white)
+![Markdown Render Hero](https://img.shields.io/badge/Markdown-Render-blue?style=for-the-badge&logo=markdown&logoColor=white)
 
-**A powerful, modern markdown renderer with advanced features, theme switching, and seamless content management.**
+**A powerful, modern markdown render tool with advanced features, theme switching, and seamless content management.**
 
 [![Next.js](https://img.shields.io/badge/Next.js-14.0-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-18.0-blue?style=flat-square&logo=react)](https://reactjs.org/)
@@ -20,7 +20,7 @@
 
 ## 🌟 Overview
 
-Transform your markdown files into beautifully rendered documents with our comprehensive markdown renderer. Built with modern web technologies, it offers a seamless experience for viewing, editing, and managing markdown content with advanced features like math equations, syntax highlighting, and interactive diagrams.
+Transform your markdown files into beautifully rendered documents with our comprehensive markdown render tool. Built with modern web technologies, it offers a seamless experience for viewing, editing, and managing markdown content with advanced features like math equations, syntax highlighting, and interactive diagrams.
 
 ### 🎯 Key Highlights
 
@@ -232,7 +232,7 @@ Create a `.env.local` file:
 
 ```env
 # Optional: Add any API keys or configurations
-NEXT_PUBLIC_APP_NAME=Markdown Renderer
+NEXT_PUBLIC_APP_NAME=Markdown Render
 NEXT_PUBLIC_APP_VERSION=1.0.0
 ```
 

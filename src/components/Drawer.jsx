@@ -21,7 +21,7 @@ function Drawer() {
         <div className=" bg-base-200 text-base-content min-h-full w-80 p-2">
           {/* Header */}
           <div className="mb-4 flex items-center justify-between">
-            <a className="btn btn-ghost btn-lg">Markdown Renderer</a>
+            <a className="btn btn-ghost btn-lg">Markdown Render</a>
             <label
               className="btn btn-square btn-ghost btn-lg"
               htmlFor="my-drawer"

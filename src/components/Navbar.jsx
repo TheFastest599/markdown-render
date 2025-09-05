@@ -62,7 +62,7 @@ function Navbar() {
         </label>
       </div>
       <div className="flex-1">
-        <a className="btn btn-ghost btn-lg">Markdown Renderer</a>
+        <a className="btn btn-ghost btn-lg">Markdown Render</a>
       </div>
       <div className="flex-none">
         <label className="swap btn btn-lg btn-ghost btn-circle swap-rotate me-2 sm:me-6">
