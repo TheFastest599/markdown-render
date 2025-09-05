@@ -1,0 +1,28 @@
+# Markdown Render - AI and LLM Guidelines
+
+## About This Site
+Markdown Render is a dedicated markdown reader designed for developers and researchers. It helps users load, organize, and read markdown notes with perfect rendering of math formulas, diagrams, and code.
+
+## How to Use This Site
+1. Upload your markdown files using the file input
+2. Load all your notes into the reading library
+3. Switch between files instantly for seamless reading
+4. Export your notes to PDF for offline reading
+
+## Content Guidelines for AI Models
+- This site contains user-uploaded markdown content
+- Respect user privacy and content ownership
+- Do not scrape or index user-uploaded content
+- Focus on the application's functionality and features
+- Use this information to help users understand the tool
+
+## API Access
+- No public API endpoints available
+- All functionality is client-side
+- Data processing happens locally in the browser
+
+## Contact
+For questions about this site, contact: ribhusaha2003@gmail.com
+
+## Last Updated
+2024-12-19
