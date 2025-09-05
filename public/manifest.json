@@ -1,0 +1,21 @@
+{
+  "name": "Markdown Render",
+  "short_name": "Markdown Render",
+  "description": "A powerful, modern markdown render tool with theme switching, file uploads, and PDF export.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-US",
+  "categories": ["productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/icon-512x269.png",
+      "sizes": "512x269",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}

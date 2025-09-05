@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import useGlobalStore from '@/stores/globalStore';
+import { trackEvent } from '@/hooks/useAnalytics';
 
 function Drawer() {
   const { contents, selectedId, setSelectedId, removeContent } =
     useGlobalStore();
-  const selectedContent = contents.find(c => c.id === selectedId);
   return (
     <div className="drawer">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -21,7 +22,9 @@ function Drawer() {
         <div className=" bg-base-200 text-base-content min-h-full w-80 p-2">
           {/* Header */}
           <div className="mb-4 flex items-center justify-between">
-            <a className="btn btn-ghost btn-lg">Markdown Render</a>
+            <Link href="/" className="btn btn-ghost btn-lg">
+              Markdown Render
+            </Link>
             <label
               className="btn btn-square btn-ghost btn-lg"
               htmlFor="my-drawer"
@@ -100,14 +103,23 @@ function Drawer() {
                 <p className="text-sm">Please select or add content to view.</p>
               </>
             )}
-            <button
-              className="btn btn-wide mt-6"
-              onClick={() =>
-                document.getElementById('add_content_modal').showModal()
-              }
-            >
-              Add Content
-            </button>
+            <div className="flex flex-col items-center mt-6">
+              <button
+                className="btn btn-wide "
+                onClick={() => {
+                  document.getElementById('add_content_modal').showModal();
+                  trackEvent('Add Content', 'Engagement');
+                }}
+              >
+                Add Content
+              </button>
+              <Link
+                href="/aboutus"
+                className="text-sm mt-2 text-gray-500 hover:underline hover:text-gray-700"
+              >
+                About Us
+              </Link>
+            </div>
           </div>
 
           {/* Sidebar content here */}

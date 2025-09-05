@@ -1,11 +1,32 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import useGlobalStore from '@/stores/globalStore';
 import { useScroll } from '@/hooks/useScroll';
 
 function Navbar() {
   const { theme, setTheme } = useGlobalStore();
+  const pathname = usePathname();
+
+  // Initialize theme from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      let savedTheme = localStorage.getItem('theme');
+      if (!savedTheme) {
+        // Check system preference if no theme stored
+        savedTheme =
+          window.matchMedia &&
+          window.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'night'
+            : 'light';
+      }
+      if (savedTheme !== theme) {
+        setTheme(savedTheme);
+      }
+    }
+  }, [theme, setTheme]);
 
   // Scroll direction hook
   const { scrollDirection } = useScroll();
@@ -32,6 +53,16 @@ function Navbar() {
       return styles.hidden;
     }
   };
+
+  // Reset navbar visibility on route change
+  useEffect(() => {
+    // Force navbar to be visible when route changes
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+      navbar.style.visibility = 'visible';
+      navbar.style.transform = 'translateY(0)';
+    }
+  }, [pathname]);
 
   const handleThemeChange = e => {
     const checked = e.target.checked;
@@ -62,7 +93,9 @@ function Navbar() {
         </label>
       </div>
       <div className="flex-1">
-        <a className="btn btn-ghost btn-lg">Markdown Render</a>
+        <Link href="/" className="btn btn-ghost btn-lg">
+          Markdown Render
+        </Link>
       </div>
       <div className="flex-none">
         <label className="swap btn btn-lg btn-ghost btn-circle swap-rotate me-2 sm:me-6">

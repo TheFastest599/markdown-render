@@ -1,11 +1,20 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, use } from 'react';
+import Link from 'next/link';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import useGlobalStore from '@/stores/globalStore';
+import { initGA, trackPageView, trackEvent } from '@/hooks/useAnalytics';
 
 export default function Home() {
   const { contents, selectedId, loadExampleContent } = useGlobalStore();
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      initGA();
+      trackPageView(window.location.pathname, document.title);
+    }
+  }, []);
 
   const selectedContent = contents.find(c => c.id === selectedId);
 
@@ -18,17 +27,8 @@ export default function Home() {
     }
   }, [selectedContent]);
 
-  // Update document title based on selected content
-  useEffect(() => {
-    if (selectedContent) {
-      document.title = `${selectedContent.name} - Markdown Render`;
-    } else {
-      document.title = 'Markdown Render | Anirban Saha';
-    }
-  }, [selectedContent]);
-
   return (
-    <div className="App bg-base-100 text-sm sm:text-base lg:text-lg">
+    <div className="App  text-sm sm:text-base lg:text-lg">
       <main className="max-w-6xl px-6 mx-auto">
         {selectedContent && (
           <>
@@ -76,9 +76,10 @@ export default function Home() {
             <div className="flex flex-col gap-2 items-center justify-center w-60 mt-6">
               <button
                 className="btn btn-wide "
-                onClick={() =>
-                  document.getElementById('add_content_modal').showModal()
-                }
+                onClick={() => {
+                  document.getElementById('add_content_modal').showModal();
+                  trackEvent('Add Content', 'Engagement');
+                }}
               >
                 Add Content
               </button>
@@ -88,6 +89,12 @@ export default function Home() {
               >
                 Load Example Content
               </button>
+              <Link
+                href="/aboutus"
+                className="text-sm mt-2 text-gray-500 hover:underline hover:text-gray-700"
+              >
+                About Us
+              </Link>
             </div>
           </div>
         )}

@@ -15,7 +15,7 @@ const useGlobalStore = create(
         set({ theme });
         if (typeof document !== 'undefined') {
           document.documentElement.setAttribute('data-theme', theme);
-          document.cookie = `theme=${theme}; path=/; max-age=31536000`;
+          localStorage.setItem('theme', theme);
         }
       },
       addContent: (data, name = 'Untitled') => {
