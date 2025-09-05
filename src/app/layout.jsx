@@ -6,6 +6,7 @@ import Drawer from '@/components/Drawer';
 import AddContent from '@/components/AddContent';
 import Loading from '@/components/Loading';
 import HydrationLoader from '@/components/HydrationLoader';
+import { Analytics } from '@vercel/analytics/next';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -61,6 +62,7 @@ export default function RootLayout({ children }) {
         <HydrationLoader>{children}</HydrationLoader>
         <AddContent />
         <Drawer />
+        <Analytics />
         <footer className="footer footer-center text-base-content p-4">
           <aside>
             <div className="flex items-center gap-2">
