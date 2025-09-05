@@ -28,7 +28,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
         className="px-1 py-0.5 rounded font-mono text-sm bg-base-200 text-secondary"
         {...props}
       >
-        <AutoLinkText>{children} </AutoLinkText>
+        {children}
       </code>
     );
   }
