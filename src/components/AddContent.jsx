@@ -1,14 +1,21 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import useGlobalStore from '@/stores/globalStore';
 
 function AddContent() {
   const { addContent, handleFileChange } = useGlobalStore();
 
-  const handleFileChangeWrapper = e => {
+  const router = useRouter();
+
+  const handleFileChangeWrapper = async e => {
     const files = Array.from(e.target.files);
-    handleFileChange(files);
+    const newId = await handleFileChange(files);
+    e.target.value = null; // Reset file input
+    if (newId) {
+      router.push(`/${newId}`);
+    }
     document.getElementById('add_content_modal').close();
   };
 
@@ -17,11 +24,14 @@ function AddContent() {
     content: '',
   });
 
-  const handlePasteAdd = () => {
+  const handlePasteAdd = async () => {
     if (textContent.content.trim() && textContent.name.trim()) {
-      addContent(textContent.content, textContent.name);
+      const newId = await addContent(textContent.content, textContent.name);
       setTextContent({ name: '', content: '' });
       document.getElementById('add_content_modal').close();
+      if (newId) {
+        router.push(`/${newId}`);
+      }
     } else {
       alert('Please provide both name and content.');
       document.getElementById('add_content_modal').close();

@@ -67,9 +67,9 @@ body {
 } */
 
 /* Images */
-/* .markdown-body img {
+.markdown-body img {
   @apply max-w-full rounded-lg my-4;
-} */
+}
 
 /* ===============================
    Markdown Code Styling (DaisyUI)

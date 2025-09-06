@@ -2,12 +2,16 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter, useParams } from 'next/navigation';
 import useGlobalStore from '@/stores/globalStore';
 import { trackEvent } from '@/hooks/useAnalytics';
 
 function Drawer() {
-  const { contents, selectedId, setSelectedId, removeContent } =
-    useGlobalStore();
+  const { contents, setSelectedId, removeContent } = useGlobalStore();
+
+  const router = useRouter();
+  const params = useParams();
+  const currentId = params.id;
   return (
     <div className="drawer">
       <input id="my-drawer" type="checkbox" className="drawer-toggle" />
@@ -56,21 +60,27 @@ function Drawer() {
                     <li key={item.id}>
                       <a
                         className={`flex justify-between  ${
-                          selectedId === item.id ? 'menu-active' : ''
+                          currentId === item.id ? 'menu-active' : ''
                         }`}
                         onClick={() => {
-                          if (selectedId !== item.id) {
+                          if (currentId !== item.id) {
+                            router.push(`/${item.id}`);
                             setSelectedId(item.id);
                           } else {
+                            router.push(`/`);
                             setSelectedId(null);
                           }
                         }}
                       >
-                        <span className="truncate flex-1">{item.name}</span>
+                        <span className="truncate flex-1 ">{item.name}</span>
                         <span className="flex-none">
                           <button
                             className="btn btn-square btn-ghost  btn-xs"
-                            onClick={() => removeContent(item.id)}
+                            onClick={e => {
+                              e.stopPropagation();
+                              removeContent(item.id);
+                              router.push(`/`);
+                            }}
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

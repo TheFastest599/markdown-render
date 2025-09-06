@@ -48,13 +48,13 @@ function OptionButton() {
 
       {/* close button should not be focusable so it can close the FAB when clicked. It's just a visual placeholder */}
       <div className="fab-close">
-        <span className="badge">Close</span>{' '}
+        <span className="badge shadow-sm">Close</span>{' '}
         <span className="btn btn-circle btn-lg btn-soft">✕</span>
       </div>
 
       {/* buttons that show up when FAB is open */}
       <div>
-        <span className="badge">Add Content</span>{' '}
+        <span className="badge shadow-sm">Add Content</span>{' '}
         <button
           className="btn btn-lg btn-circle"
           onClick={() => {
@@ -66,7 +66,7 @@ function OptionButton() {
         </button>
       </div>
       <div>
-        <span className="badge">Print to PDF</span>{' '}
+        <span className="badge shadow-sm">Print to PDF</span>{' '}
         <button className="btn btn-lg btn-circle" onClick={handlePrint}>
           <svg
             xmlns="http://www.w3.org/2000/svg"

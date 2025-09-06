@@ -10,6 +10,12 @@ const useGlobalStore = create(
       printRef: null,
       loading: false,
       isHydrated: false,
+      message: '',
+      type: 'info', // 'info', 'success', 'error', etc.
+      visible: false,
+      showToast: (message, type = 'info') =>
+        set({ message, type, visible: true }),
+      hideToast: () => set({ visible: false }),
       toggleLoading: value => set({ loading: value }),
       setHydrated: () => set({ isHydrated: true }),
       setTheme: theme => {
@@ -20,7 +26,18 @@ const useGlobalStore = create(
         }
       },
       addContent: (data, name = 'Untitled') => {
-        const newId = Date.now();
+        const newId = name; // Use filename as ID directly
+
+        // Check if content with same ID already exists
+        const { contents } = get();
+        const existingContent = contents.find(c => c.id === newId);
+
+        if (existingContent) {
+          // Content already exists, don't add duplicate
+          set({ selectedId: newId }); // Just select the existing one
+          return newId;
+        }
+
         set(state => ({
           contents: [
             ...state.contents,
@@ -32,6 +49,7 @@ const useGlobalStore = create(
           ],
           selectedId: newId,
         }));
+        return newId;
       },
       removeContent: id => {
         set(state => {
@@ -66,7 +84,7 @@ const useGlobalStore = create(
               const reader = new FileReader();
               reader.onload = event => {
                 resolve({
-                  id: Date.now() + Math.random(),
+                  id: file.name, // Use filename as ID directly
                   name: file.name,
                   content: event.target.result,
                 });
@@ -79,27 +97,55 @@ const useGlobalStore = create(
 
           const newContents = await Promise.all(files.map(readFile));
 
+          // Filter out files that already exist
+          const { contents } = get();
+          const uniqueNewContents = newContents.filter(
+            newContent =>
+              !contents.find(existing => existing.id === newContent.id)
+          );
+
+          if (uniqueNewContents.length === 0) {
+            // All files already exist, just select the first one
+            toggleLoading(false);
+            return newContents[0]?.id || null;
+          }
+
           set(state => ({
-            contents: [...state.contents, ...newContents],
-            selectedId: newContents[0]?.id || state.selectedId,
+            contents: [...state.contents, ...uniqueNewContents],
+            selectedId: uniqueNewContents[0]?.id || state.selectedId,
           }));
 
           toggleLoading(false);
+          return uniqueNewContents[0]?.id || newContents[0]?.id || null;
         } catch (error) {
           console.error('Error handling file change:', error);
           alert(error.message || 'Error reading files.');
           const { toggleLoading } = get();
           toggleLoading(false);
+          return null;
         }
       },
       loadExampleContent: async () => {
         try {
           const { toggleLoading } = useGlobalStore.getState();
           toggleLoading(true);
-          const response = await fetch('/example.md');
+
+          const newId = 'example.md'; // Use filename as ID directly
+
+          // Check if example.md already exists
+          const { contents } = get();
+          const existingContent = contents.find(c => c.id === newId);
+
+          if (existingContent) {
+            // Example already exists, just select it
+            set({ selectedId: newId });
+            toggleLoading(false);
+            return newId;
+          }
+
+          const response = await fetch('/_example.md');
           if (response.ok) {
             const content = await response.text();
-            const newId = Date.now();
             set(state => ({
               contents: [
                 ...state.contents,
@@ -112,14 +158,17 @@ const useGlobalStore = create(
               selectedId: newId,
             }));
             toggleLoading(false);
+            return newId;
           } else {
             alert('Failed to load example content.');
             toggleLoading(false);
+            return null;
           }
         } catch (error) {
           console.error('Error loading example content:', error);
           alert('Error loading example content.');
           toggleLoading(false);
+          return null;
         }
       },
     }),

@@ -247,16 +247,17 @@ const MarkdownRenderer = ({ content }) => {
               </table>
             </div>
           ),
-          img: ({ src, alt, ...props }) => (
-            <span className="flex justify-center  my-4">
-              <img
-                className="rounded-lg w-full max-w-[80%] object-contain"
-                src={src}
-                alt={alt}
-                {...props}
-              />
-            </span>
-          ),
+          // img: ({ src, alt, style, ...props }) => (
+          //   <span className="flex justify-center  my-4">
+          //     <img
+          //       className="rounded-lg w-full max-w-[80%] object-contain"
+          //       src={src}
+          //       alt={alt}
+          //       style={style}
+          //       {...props}
+          //     />
+          //   </span>
+          // ),
         }}
       />
     </div>

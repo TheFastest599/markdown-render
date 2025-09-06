@@ -6,6 +6,7 @@ import Drawer from '@/components/Drawer';
 import AddContent from '@/components/AddContent';
 import Loading from '@/components/Loading';
 import HydrationLoader from '@/components/HydrationLoader';
+import Toast from '@/utils/Toast';
 import { AnalyticsWrapper } from '@/components/AnalyticsTools';
 import { Analytics } from '@vercel/analytics/next';
 
@@ -89,6 +90,7 @@ export default function RootLayout({ children }) {
         <Drawer />
         <Analytics />
         <AnalyticsWrapper />
+        <Toast />
         <footer className="footer footer-center text-base-content p-4">
           <aside>
             <div className="flex items-center gap-2">
