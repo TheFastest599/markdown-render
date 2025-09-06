@@ -59,6 +59,26 @@ export default function RootLayout({ children }) {
           name="google-site-verification"
           content="ERTXt8EGV0W84ALInFRKJgvq7Oz1hD1JPv0a90URuk8"
         />
+        <link rel="canonical" href="https://markdownrender.vercel.app/" />
+        <link
+          rel="sitemap"
+          type="application/xml"
+          href="https://markdownrender.vercel.app/sitemap.xml"
+        />
+        <link
+          rel="robots"
+          type="text/plain"
+          href="https://markdownrender.vercel.app/robots.txt"
+        />
+        <link rel="about" href="https://markdownrender.vercel.app/aboutus" />
+        <meta name="llm" content="false" />
+        <script>
+          {`(function () {
+            var theme = localStorage.getItem('theme');
+            theme && document.documentElement.setAttribute('data-theme', theme);
+          })();
+          `}
+        </script>
       </head>
       <body className={`${poppins.variable} antialiased bg-base-100`}>
         <Navbar />
@@ -130,22 +150,6 @@ export default function RootLayout({ children }) {
             </div>
           </aside>
         </footer>
-        <Script id="theme-script" strategy="beforeInteractive">
-          {`(function () {
-      try {
-        var theme = localStorage.getItem('theme');
-        if (!theme) {
-          // Check system preference if no theme stored
-          theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'night' : 'light';
-        }
-        document.documentElement.setAttribute('data-theme', theme);
-      } catch (e) {
-        // If anything fails, default to light
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    })();
-  `}
-        </Script>
       </body>
     </html>
   );

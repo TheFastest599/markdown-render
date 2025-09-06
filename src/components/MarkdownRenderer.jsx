@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -7,6 +7,7 @@ import rehypeRaw from 'rehype-raw';
 import 'katex/dist/katex.min.css';
 import rehypePrism from 'rehype-prism-plus';
 import CodeRenderer from '@/components/CodeRunner';
+import Link from 'next/link';
 // import 'prismjs/themes/prism.css';
 // import 'github-markdown-css/github-markdown.css';
 
@@ -53,6 +54,24 @@ function fixMath(content) {
 }
 
 const MarkdownRenderer = ({ content }) => {
+  useEffect(() => {
+    const scrollToHash = () => {
+      if (window.location.hash) {
+        const id = window.location.hash.slice(1);
+        const el = document.getElementById(id);
+        console.log('Scrolling to element with id:', id, el);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    };
+    // Scroll on mount
+    scrollToHash();
+    // Scroll on hashchange
+    window.addEventListener('hashchange', scrollToHash);
+    return () => window.removeEventListener('hashchange', scrollToHash);
+  }, []);
+
   return (
     <div className="markdown-body  dark:prose-invert ">
       <ReactMarkdown
@@ -90,16 +109,43 @@ const MarkdownRenderer = ({ content }) => {
               </CodeRenderer>
             );
           },
-          a: ({ href, children, ...props }) => (
-            <a
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-              {...props}
-            >
-              {children}
-            </a>
+          a: ({ href, children, ...props }) => {
+            if (!href) return <span {...props}>{children}</span>;
+            // Anchor link: starts with #
+            if (href.startsWith('#')) {
+              return (
+                <a href={href} className="underline" {...props}>
+                  {children}
+                </a>
+              );
+            }
+            // External link: starts with http or https
+            if (/^https?:\/\//.test(href)) {
+              return (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline"
+                  {...props}
+                >
+                  {children}
+                </a>
+              );
+            }
+            // Internal page link (starts with /)
+            return (
+              <Link href={href} className="underline" {...props}>
+                {children}
+              </Link>
+            );
+          },
+          table: ({ children, ...props }) => (
+            <div className="overflow-x-auto max-h-[80vh]" {...props}>
+              <table className="table table-sm md:table-md lg:table-lg table-zebra">
+                {children}
+              </table>
+            </div>
           ),
         }}
       />

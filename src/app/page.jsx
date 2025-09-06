@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useMemo, use } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
 import useGlobalStore from '@/stores/globalStore';

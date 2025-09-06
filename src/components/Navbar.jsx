@@ -10,24 +10,6 @@ function Navbar() {
   const { theme, setTheme } = useGlobalStore();
   const pathname = usePathname();
 
-  // Initialize theme from localStorage on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      let savedTheme = localStorage.getItem('theme');
-      if (!savedTheme) {
-        // Check system preference if no theme stored
-        savedTheme =
-          window.matchMedia &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'night'
-            : 'light';
-      }
-      if (savedTheme !== theme) {
-        setTheme(savedTheme);
-      }
-    }
-  }, [theme, setTheme]);
-
   // Scroll direction hook
   const { scrollDirection } = useScroll();
   // const styles = {

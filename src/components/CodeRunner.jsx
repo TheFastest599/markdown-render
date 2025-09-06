@@ -19,7 +19,6 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
   const langMatch = className.match(/language-([\w-]+)/);
   const language = langMatch ? langMatch[1] : '';
   const code = extractText(children).trim();
-  const containerRef = useRef(null);
 
   // ✅ Inline code
   if (!language) {

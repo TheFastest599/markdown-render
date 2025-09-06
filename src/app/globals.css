@@ -1,6 +1,6 @@
 @import 'tailwindcss';
 @plugin "daisyui" {
-  themes: light --default, night --prefersdark;
+  themes: light --default, night;
 }
 
 body {
@@ -9,23 +9,23 @@ body {
 
 /* markdown body */
 .markdown-body h1 {
-  @apply text-4xl font-bold mt-8 mb-4;
+  @apply text-3xl sm:text-4xl font-bold mt-8 mb-4;
 }
 
 .markdown-body h2 {
-  @apply text-3xl font-bold mt-7 mb-4;
+  @apply text-2xl sm:text-3xl font-semibold mt-7 mb-4;
 }
 
 .markdown-body h3 {
-  @apply text-2xl font-bold mt-6 mb-3;
+  @apply text-xl sm:text-2xl font-medium mt-6 mb-3;
 }
 
 .markdown-body h4 {
-  @apply text-xl font-semibold mt-5 mb-3;
+  @apply text-lg sm:text-xl font-medium mt-5 mb-3;
 }
 
 .markdown-body h5 {
-  @apply text-lg font-semibold mt-4 mb-2;
+  @apply text-base sm:text-lg font-medium mt-4 mb-2;
 }
 
 .markdown-body h6 {
@@ -55,16 +55,16 @@ body {
 }
 
 /* Tables */
-.markdown-body table {
+/* .markdown-body table {
   @apply table table-sm md:table-md lg:table-lg table-zebra my-4 w-full overflow-x-auto border-collapse;
-}
-.markdown-body th,
+} */
+/* .markdown-body th,
 .markdown-body td {
   @apply text-left;
 }
 .markdown-body th {
   @apply font-semibold;
-}
+} */
 
 /* Images */
 .markdown-body img {

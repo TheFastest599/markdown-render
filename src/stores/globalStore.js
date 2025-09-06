@@ -42,7 +42,9 @@ const useGlobalStore = create(
           return { contents: newContents, selectedId: newSelectedId };
         });
       },
-      setSelectedId: id => set({ selectedId: id }),
+      setSelectedId: id => {
+        set({ selectedId: id });
+      },
       handleFileChange: async files => {
         try {
           const { toggleLoading } = get();
