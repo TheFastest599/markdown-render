@@ -53,21 +53,30 @@ function fixMath(content) {
   return fixed;
 }
 
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/[^\w\s-]/g, '') // Remove non-word chars
+    .trim()
+    .replace(/\s+/g, '-'); // Replace spaces with -
+}
+const NAVBAR_HEIGHT = 64;
+
+const scrollToHash = () => {
+  if (window.location.hash) {
+    const id = window.location.hash.slice(1);
+    const el = document.getElementById(id);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - NAVBAR_HEIGHT;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
+};
+
 const MarkdownRenderer = ({ content }) => {
   useEffect(() => {
-    const scrollToHash = () => {
-      if (window.location.hash) {
-        const id = window.location.hash.slice(1);
-        const el = document.getElementById(id);
-        console.log('Scrolling to element with id:', id, el);
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
-    };
-    // Scroll on mount
     scrollToHash();
-    // Scroll on hashchange
     window.addEventListener('hashchange', scrollToHash);
     return () => window.removeEventListener('hashchange', scrollToHash);
   }, []);
@@ -84,6 +93,97 @@ const MarkdownRenderer = ({ content }) => {
         ]}
         components={{
           // ✅ Render block math ($$ ... $$)
+          // Custom heading renderer for h1-h6
+          h1: ({ node, children, ...props }) => {
+            const text = React.Children.toArray(children)
+              .map(child => (typeof child === 'string' ? child : ''))
+              .join('');
+            const id = slugify(text);
+            return (
+              <h1
+                id={id}
+                className="text-3xl sm:text-4xl font-bold mt-8 mb-4"
+                {...props}
+              >
+                {children}
+              </h1>
+            );
+          },
+          h2: ({ node, children, ...props }) => {
+            const text = React.Children.toArray(children)
+              .map(child => (typeof child === 'string' ? child : ''))
+              .join('');
+            const id = slugify(text);
+            return (
+              <h2
+                id={id}
+                className="text-2xl sm:text-3xl font-semibold mt-7 mb-4"
+                {...props}
+              >
+                {children}
+              </h2>
+            );
+          },
+          h3: ({ node, children, ...props }) => {
+            const text = React.Children.toArray(children)
+              .map(child => (typeof child === 'string' ? child : ''))
+              .join('');
+            const id = slugify(text);
+            return (
+              <h3
+                id={id}
+                className="text-xl sm:text-2xl font-medium mt-6 mb-3"
+                {...props}
+              >
+                {children}
+              </h3>
+            );
+          },
+          h4: ({ node, children, ...props }) => {
+            const text = React.Children.toArray(children)
+              .map(child => (typeof child === 'string' ? child : ''))
+              .join('');
+            const id = slugify(text);
+            return (
+              <h4
+                id={id}
+                className="text-lg sm:text-xl font-medium mt-5 mb-3"
+                {...props}
+              >
+                {children}
+              </h4>
+            );
+          },
+          h5: ({ node, children, ...props }) => {
+            const text = React.Children.toArray(children)
+              .map(child => (typeof child === 'string' ? child : ''))
+              .join('');
+            const id = slugify(text);
+            return (
+              <h5
+                id={id}
+                className="text-base sm:text-lg font-medium mt-4 mb-2"
+                {...props}
+              >
+                {children}
+              </h5>
+            );
+          },
+          h6: ({ node, children, ...props }) => {
+            const text = React.Children.toArray(children)
+              .map(child => (typeof child === 'string' ? child : ''))
+              .join('');
+            const id = slugify(text);
+            return (
+              <h6
+                id={id}
+                className="text-base font-medium mt-3 mb-2"
+                {...props}
+              >
+                {children}
+              </h6>
+            );
+          },
           math({ value }) {
             return (
               <span className="math-block">
