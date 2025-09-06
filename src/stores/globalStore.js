@@ -7,6 +7,7 @@ const useGlobalStore = create(
       theme: 'light',
       contents: [],
       selectedId: 1,
+      printRef: null,
       loading: false,
       isHydrated: false,
       toggleLoading: value => set({ loading: value }),

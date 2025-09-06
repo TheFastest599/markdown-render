@@ -3,17 +3,28 @@
 import React, { useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import MarkdownRenderer from '@/components/MarkdownRenderer';
+import OptionButton from '@/components/OptionButton';
 import useGlobalStore from '@/stores/globalStore';
 import { trackEvent } from '@/hooks/useAnalytics';
 import { useReactToPrint } from 'react-to-print';
 
 export default function Home() {
-  const { contents, selectedId, loadExampleContent, toggleLoading, theme } =
-    useGlobalStore();
+  const {
+    contents,
+    selectedId,
+    loadExampleContent,
+    toggleLoading,
+    theme,
+    printRef,
+  } = useGlobalStore();
 
   const selectedContent = contents.find(c => c.id === selectedId);
 
-  const printRef = useRef();
+  const printRefVar = useRef();
+  useEffect(() => {
+    useGlobalStore.setState({ printRef: printRefVar });
+    return () => useGlobalStore.setState({ printRef: null });
+  }, [printRefVar]);
 
   // Update document title based on selected content
   useEffect(() => {
@@ -80,13 +91,14 @@ export default function Home() {
               </button>
             </div>
             {/* Print Preview */}
+            {/* Markdown Render */}
+            <OptionButton />
             <div
               ref={printRef}
               className="prose max-w-none print-transform"
               data-date={new Date().toLocaleDateString()}
               data-name={selectedContent.name}
             >
-              {/* Markdown Render */}
               <MarkdownRenderer content={selectedContent.content} />
             </div>
           </>

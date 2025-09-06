@@ -12,29 +12,6 @@ function Navbar() {
 
   // Scroll direction hook
   const { scrollDirection } = useScroll();
-  // const styles = {
-  //   active: {
-  //     visibility: 'visible',
-  //     transition: 'all 0.3s',
-  //     width: '100vw',
-  //   },
-  //   hidden: {
-  //     visibility: 'hidden',
-  //     transition: 'all 0.3s',
-  //     transform: 'translateY(-100%)',
-  //     width: '100vw',
-  //   },
-  // };
-
-  // const navStatus = () => {
-  //   if (scrollDirection === 'down') {
-  //     return styles.active;
-  //   } else if (scrollDirection === undefined) {
-  //     return styles.active;
-  //   } else {
-  //     return styles.hidden;
-  //   }
-  // };
 
   // Reset navbar visibility on route change
   useEffect(() => {
