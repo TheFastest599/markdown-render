@@ -44,6 +44,23 @@ export default function Home() {
     removeAfterPrint: false,
   });
 
+  // Hijack Ctrl+P to use custom print
+  useEffect(() => {
+    const onKeyDown = e => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p') {
+        e.preventDefault();
+        // if (theme === 'night') {
+        //   alert('Please switch to Light theme before printing.');
+        //   return;
+        // }
+        handlePrint();
+        trackEvent('Print to PDF', 'Engagement');
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [handlePrint, theme]);
+
   return (
     <div className="App  text-sm sm:text-base lg:text-lg">
       <main className="max-w-6xl px-6 mx-auto">
@@ -65,10 +82,10 @@ export default function Home() {
                 className="btn btn-sm btn-circle btn-ghost tooltip tooltip-bottom"
                 data-tip="Print to PDF"
                 onClick={() => {
-                  if (theme === 'night') {
-                    alert('Please switch to Light theme before printing.');
-                    return;
-                  }
+                  // if (theme === 'night') {
+                  //   alert('Please switch to Light theme before printing.');
+                  //   return;
+                  // }
                   handlePrint();
                   trackEvent('Print to PDF', 'Engagement');
                 }}
