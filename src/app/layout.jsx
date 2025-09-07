@@ -16,25 +16,25 @@ const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
 });
 export const metadata = {
-  title: 'Markdown Render - Dedicated Markdown Reader',
+  title: 'Markdown Render - Simple Markdown Reader for Notes, Docs & Math',
   description:
-    'A dedicated markdown reader for developers and researchers. Load all your markdown notes, documentation, and research papers in one place. Perfect rendering of AI-generated math formulas with persistent reading sessions.',
+    'A simple Markdown reader for developers and students. Load and read Markdown notes, study materials, documentation, and research papers in one place. Fix broken AI math exports with perfect KaTeX rendering, syntax highlighting, mermaid diagrams, and persistent reading sessions.',
   keywords:
-    'markdown reader, note reader app, documentation reader, markdown viewer, AI math formula fix, persistent reading, technical notes, research papers, developer tools, KaTeX rendering, syntax highlighting, mermaid diagrams, reading app, note library, markdown notes, study materials, PDF export, offline reading, code documentation, scientific papers, markdown collection',
+    'markdown reader, markdown viewer, markdown notes, note reader app, notes app, student notes, study materials, research papers, documentation reader, code documentation, developer tools, markdown library, markdown collection, persistent reading, offline reading, AI math rendering, broken AI math export fix, KaTeX, LaTeX, syntax highlighting, code blocks, mermaid diagrams, scientific papers, technical notes, programming notes, academic notes, pdf export, open source markdown viewer',
   author: 'Anirban Saha',
   creator: 'Anirban Saha',
   openGraph: {
-    title: 'Markdown Render - Dedicated Markdown Reader',
+    title: 'Markdown Render - Markdown Reader for Notes, Docs & Math',
     description:
-      'Load and read all your markdown notes in one organized library. Perfect for developers and researchers with AI math formula fixes.',
+      'Read Markdown notes, study docs, developer files, and research papers in one organized library. Fix broken AI math exports, render formulas with KaTeX, highlight code, and view mermaid diagrams.',
     type: 'website',
     locale: 'en_US',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Markdown Render - Markdown Reader',
+    title: 'Markdown Render - Markdown Reader for Notes & Docs',
     description:
-      'Read your markdown notes with perfect math rendering and persistent sessions',
+      'Markdown reader for developers and students. Read notes, docs, and math with KaTeX support, syntax highlighting, mermaid diagrams, and broken AI math export fixes.',
     creator: '@TheFastest599',
   },
   robots: 'index, follow',
@@ -95,7 +95,14 @@ export default function RootLayout({ children }) {
           <aside>
             <div className="flex items-center gap-2">
               <p className="text-xs sm:text-sm">
-                Made by <span className="font-semibold">Anirban Saha</span>
+                Made by{' '}
+                <a
+                  href="https://anirban-saha-portfolio.netlify.app"
+                  target="_blank"
+                  className="font-semibold hover:text-primary hover:underline"
+                >
+                  Anirban Saha
+                </a>
               </p>
               <a
                 href="https://github.com/TheFastest599"

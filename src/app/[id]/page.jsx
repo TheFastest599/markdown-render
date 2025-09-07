@@ -73,55 +73,53 @@ export default function ContentPage() {
   }
 
   return (
-    <div className="App text-sm sm:text-base lg:text-lg">
-      <main className="max-w-6xl px-6 mx-auto">
-        <div className="flex justify-between">
-          <div className="breadcrumbs text-sm">
-            <ul>
-              <li>
-                <a>Content</a>
-              </li>
-              <li>
-                <a>{selectedContent.name}</a>
-              </li>
-            </ul>
-          </div>
-          {/* Print Button */}
-          <button
-            className="btn btn-sm btn-circle btn-ghost tooltip tooltip-bottom"
-            data-tip="Print to PDF"
-            onClick={() => {
-              handlePrint();
-              trackEvent('Print to PDF', 'Engagement');
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="6,9 6,2 18,2 18,9"></polyline>
-              <path d="M6,18H4a2,2,0,0,1-2-2V11a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v5a2,2,0,0,1-2,2H18"></path>
-              <polyline points="6,14 18,14 18,22 6,22 6,14"></polyline>
-            </svg>
-          </button>
+    <main className="App text-sm sm:text-base lg:text-lg max-w-6xl px-6 mx-auto">
+      <div className="flex justify-between">
+        <div className="breadcrumbs text-sm">
+          <ul>
+            <li>
+              <a>Content</a>
+            </li>
+            <li>
+              <a>{selectedContent.name}</a>
+            </li>
+          </ul>
         </div>
-        <OptionButton />
-        <div
-          ref={printRef}
-          className="prose max-w-none print-transform"
-          data-date={new Date().toLocaleDateString()}
-          data-name={selectedContent.name}
+        {/* Print Button */}
+        <button
+          className="btn btn-sm btn-circle btn-ghost tooltip tooltip-bottom"
+          data-tip="Print to PDF"
+          onClick={() => {
+            handlePrint();
+            trackEvent('Print to PDF', 'Engagement');
+          }}
         >
-          <MarkdownRenderer content={selectedContent.content} />
-        </div>
-      </main>
-    </div>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polyline points="6,9 6,2 18,2 18,9"></polyline>
+            <path d="M6,18H4a2,2,0,0,1-2-2V11a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v5a2,2,0,0,1-2,2H18"></path>
+            <polyline points="6,14 18,14 18,22 6,22 6,14"></polyline>
+          </svg>
+        </button>
+      </div>
+      <OptionButton />
+      <div
+        ref={printRef}
+        className="prose max-w-none print-transform"
+        data-date={new Date().toLocaleDateString()}
+        data-name={selectedContent.name}
+      >
+        <MarkdownRenderer content={selectedContent.content} />
+      </div>
+    </main>
   );
 }

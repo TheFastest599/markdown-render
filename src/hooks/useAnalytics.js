@@ -25,6 +25,7 @@ const trackPageView = (path = '', title) => {
 // Track custom events
 const trackEvent = (action, category = 'General', label = '', value) => {
   if (GA_TRACKING_ID) {
+    console.log('Tracking Event:', { action, category, label, value });
     ReactGA.event({
       action,
       category,

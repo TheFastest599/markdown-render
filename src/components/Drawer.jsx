@@ -26,8 +26,10 @@ function Drawer() {
         <div className=" bg-base-200 text-base-content min-h-full w-80 p-2">
           {/* Header */}
           <div className="mb-4 flex items-center justify-between">
-            <Link href="/" className="btn btn-ghost btn-lg">
-              Markdown Render
+            <Link href="/">
+              <h1 className="text-xl font-bold cursor-pointer hover:text-primary transition-colors px-4 py-2">
+                Markdown Render
+              </h1>
             </Link>
             <label
               className="btn btn-square btn-ghost btn-lg"

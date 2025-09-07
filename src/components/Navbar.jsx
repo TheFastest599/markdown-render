@@ -64,11 +64,14 @@ function Navbar() {
         </label>
       </div>
       <div className="flex-1">
-        <Link href="/">
-          <h1 className="text-xl font-bold cursor-pointer hover:text-primary transition-colors px-4 py-2">
+        <h1 className="text-xl font-bold px-4 py-2">
+          <Link
+            href="/"
+            className="cursor-pointer hover:text-primary transition-colors"
+          >
             Markdown Render
-          </h1>
-        </Link>
+          </Link>
+        </h1>
       </div>
       <div className="flex-none">
         <label className="swap btn btn-lg btn-ghost btn-circle swap-rotate me-2 sm:me-6">
