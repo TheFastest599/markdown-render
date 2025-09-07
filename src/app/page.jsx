@@ -13,7 +13,7 @@ export default function Home() {
     <main className="flex flex-col items-center justify-center min-h-[83vh] text-base-content/60 px-4">
       {/* Tagline */}
       <header>
-        <h1 className="text-lg my-6 sm:text-xl md:text-2xl font-medium text-center">
+        <h1 className="text-lg my-6 sm:text-xl md:text-2xl font-medium text-center text-base-content">
           “A Markdown reader for notes, docs, and math - built for devs &
           students.”
         </h1>
