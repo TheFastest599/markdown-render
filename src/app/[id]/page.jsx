@@ -1,13 +1,14 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, Suspense, lazy } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import MarkdownRenderer from '@/components/MarkdownRenderer';
 import OptionButton from '@/components/OptionButton';
 import useGlobalStore from '@/stores/globalStore';
 import { trackEvent } from '@/hooks/useAnalytics';
 import { useReactToPrint } from 'react-to-print';
+
+const MarkdownRenderer = lazy(() => import('@/components/MarkdownRenderer'));
 
 export default function ContentPage() {
   const router = useRouter();
@@ -118,7 +119,18 @@ export default function ContentPage() {
         data-date={new Date().toLocaleDateString()}
         data-name={selectedContent.name}
       >
-        <MarkdownRenderer content={selectedContent.content} />
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center min-h-[75vh] bg-base-100">
+              <div className="text-center">
+                <span className="loading loading-spinner loading-lg text-primary"></span>
+                <p className="mt-4 text-gray-500">Loading your content...</p>
+              </div>
+            </div>
+          }
+        >
+          <MarkdownRenderer content={selectedContent.content} />
+        </Suspense>
       </div>
     </main>
   );
