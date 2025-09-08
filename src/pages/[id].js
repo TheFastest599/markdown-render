@@ -15,10 +15,7 @@ export default function ContentPage() {
     useGlobalStore();
 
   // Memoize the selected content to avoid unnecessary recalculations
-  const selectedContent = useMemo(
-    () => contents.find(c => c.id === id),
-    [contents, id]
-  );
+  const selectedContent = useMemo(() => contents[id], [contents, id]);
 
   useEffect(() => {
     if (id && !selectedContent) {

@@ -49,20 +49,20 @@ function Drawer() {
             </label>
           </div>
           {/* Content List */}
-          {contents.length > 0 && (
+          {Object.keys(contents).length > 0 ? (
             <ul className="menu bg-base-200 rounded-box w-full">
               <li>
                 <h2 className="menu-title">Contents</h2>
                 <ul className="max-h-96 overflow-y-auto">
-                  {contents.map(item => (
-                    <li key={item.id}>
+                  {Object.entries(contents).map(([id, item]) => (
+                    <li key={id}>
                       <Link
-                        href={`/${item.id}`}
+                        href={`/${id}`}
                         className={`flex justify-between ${
-                          item.id === selectedId ? 'menu-active' : ''
+                          id === selectedId ? 'menu-active' : ''
                         }`}
                         onClick={() => {
-                          setSelectedId(item.id);
+                          setSelectedId(id);
                         }}
                       >
                         <span className="truncate flex-1">{item.name}</span>
@@ -71,7 +71,7 @@ function Drawer() {
                             className="btn btn-square btn-ghost btn-xs"
                             onClick={e => {
                               e.stopPropagation();
-                              removeContent(item.id);
+                              removeContent(id);
                             }}
                           >
                             <svg
@@ -95,32 +95,29 @@ function Drawer() {
                 </ul>
               </li>
             </ul>
+          ) : (
+            <div className="text-center text-gray-500">
+              <p className="text-lg">No content present.</p>
+              <p className="text-sm">Please select or add content to view.</p>
+            </div>
           )}
           {/* Action */}
-          <div className="text-center text-gray-500">
-            {contents.length === 0 && (
-              <>
-                <p className="text-lg">No content present.</p>
-                <p className="text-sm">Please select or add content to view.</p>
-              </>
-            )}
-            <div className="flex flex-col items-center mt-6">
-              <button
-                className="btn btn-wide"
-                onClick={() => {
-                  document.getElementById('add_content_modal').showModal();
-                  trackEvent('Add Content', 'Engagement');
-                }}
-              >
-                Add Content
-              </button>
-              <Link
-                href="/aboutus"
-                className="text-sm mt-2 text-gray-500 hover:underline hover:text-gray-700"
-              >
-                About Us
-              </Link>
-            </div>
+          <div className="flex flex-col items-center mt-6">
+            <button
+              className="btn btn-wide"
+              onClick={() => {
+                document.getElementById('add_content_modal').showModal();
+                trackEvent('Add Content', 'Engagement');
+              }}
+            >
+              Add Content
+            </button>
+            <Link
+              href="/aboutus"
+              className="text-sm mt-2 text-gray-500 hover:underline hover:text-gray-700"
+            >
+              About Us
+            </Link>
           </div>
         </div>
       </div>

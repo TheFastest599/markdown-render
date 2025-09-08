@@ -5,19 +5,27 @@ const useGlobalStore = create(
   persist(
     (set, get) => ({
       theme: 'light',
-      contents: [],
-      selectedId: 1,
+      contents: {}, // Changed from array to object
+      selectedId: null,
       printRef: null,
       loading: false,
       isHydrated: false,
       message: '',
       type: 'info', // 'info', 'success', 'error', etc.
       visible: false,
+
+      // Toast Functions
       showToast: (message, type = 'info') =>
         set({ message, type, visible: true }),
       hideToast: () => set({ visible: false }),
+
+      // Loading State
       toggleLoading: value => set({ loading: value }),
+
+      // Hydration State
       setHydrated: () => set({ isHydrated: true }),
+
+      // Theme Management
       setTheme: theme => {
         set({ theme });
         if (typeof document !== 'undefined') {
@@ -25,45 +33,50 @@ const useGlobalStore = create(
           localStorage.setItem('theme', theme);
         }
       },
+
+      // Add Content
       addContent: (data, name = 'Untitled') => {
         const newId = name; // Use filename as ID directly
 
-        // Check if content with same ID already exists
+        // Check if content with the same ID already exists
         const { contents } = get();
-        const existingContent = contents.find(c => c.id === newId);
-
-        if (existingContent) {
+        if (contents[newId]) {
           // Content already exists, don't add duplicate
           set({ selectedId: newId }); // Just select the existing one
           return newId;
         }
 
         set(state => ({
-          contents: [
+          contents: {
             ...state.contents,
-            {
-              id: newId,
+            [newId]: {
               name: name,
               content: data,
             },
-          ],
+          },
           selectedId: newId,
         }));
         return newId;
       },
+
+      // Remove Content
       removeContent: id => {
         set(state => {
-          const newContents = state.contents.filter(c => c.id !== id);
+          const { [id]: _, ...newContents } = state.contents; // Remove the content by ID
           let newSelectedId = state.selectedId;
-          if (state.selectedId === id && newContents.length > 0) {
-            newSelectedId = newContents[0].id;
+          if (state.selectedId === id && Object.keys(newContents).length > 0) {
+            newSelectedId = Object.keys(newContents)[0]; // Select the first available content
           }
           return { contents: newContents, selectedId: newSelectedId };
         });
       },
+
+      // Set Selected Content
       setSelectedId: id => {
         set({ selectedId: id });
       },
+
+      // Handle File Upload
       handleFileChange: async files => {
         try {
           const { toggleLoading } = get();
@@ -100,8 +113,7 @@ const useGlobalStore = create(
           // Filter out files that already exist
           const { contents } = get();
           const uniqueNewContents = newContents.filter(
-            newContent =>
-              !contents.find(existing => existing.id === newContent.id)
+            newContent => !contents[newContent.id]
           );
 
           if (uniqueNewContents.length === 0) {
@@ -110,8 +122,19 @@ const useGlobalStore = create(
             return newContents[0]?.id || null;
           }
 
+          const newContentsObject = uniqueNewContents.reduce(
+            (acc, content) => ({
+              ...acc,
+              [content.id]: {
+                name: content.name,
+                content: content.content,
+              },
+            }),
+            {}
+          );
+
           set(state => ({
-            contents: [...state.contents, ...uniqueNewContents],
+            contents: { ...state.contents, ...newContentsObject },
             selectedId: uniqueNewContents[0]?.id || state.selectedId,
           }));
 
@@ -125,6 +148,8 @@ const useGlobalStore = create(
           return null;
         }
       },
+
+      // Load Example Content
       loadExampleContent: async () => {
         try {
           const { toggleLoading } = useGlobalStore.getState();
@@ -134,9 +159,7 @@ const useGlobalStore = create(
 
           // Check if example.md already exists
           const { contents } = get();
-          const existingContent = contents.find(c => c.id === newId);
-
-          if (existingContent) {
+          if (contents[newId]) {
             // Example already exists, just select it
             set({ selectedId: newId });
             toggleLoading(false);
@@ -147,14 +170,13 @@ const useGlobalStore = create(
           if (response.ok) {
             const content = await response.text();
             set(state => ({
-              contents: [
+              contents: {
                 ...state.contents,
-                {
-                  id: newId,
+                [newId]: {
                   name: 'example.md',
                   content: content,
                 },
-              ],
+              },
               selectedId: newId,
             }));
             toggleLoading(false);
@@ -173,12 +195,11 @@ const useGlobalStore = create(
       },
     }),
     {
-      name: 'markdown-renderer', // key for localStorage
+      name: 'markdown-renderer-V0', // Key for localStorage
       partialize: state => ({
         theme: state.theme,
         contents: state.contents,
         selectedId: state.selectedId,
-        // loading and isHydrated are excluded from persistence
       }),
       onRehydrateStorage: () => state => {
         // This callback is called when rehydration is complete

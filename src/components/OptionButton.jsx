@@ -9,14 +9,16 @@ function OptionButton() {
 
   const { scrollDirection } = useScroll();
 
-  const selectedContent = contents.find(c => c.id === selectedId);
+  // Use direct lookup for selected content
+  const selectedContent = contents[selectedId];
+
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
-
     contentRef: printRef,
     documentTitle: selectedContent?.name?.split('.')[0] || 'Document',
     removeAfterPrint: false,
   });
+
   return (
     <div
       className={`fab fixed bottom-16 right-16 transition-all duration-300 ${
@@ -25,7 +27,7 @@ function OptionButton() {
           : 'translate-y-0 opacity-100'
       }`}
     >
-      {/* a focusable div with tabIndex is necessary to work on all browsers. role="button" is necessary for accessibility */}
+      {/* A focusable div with tabIndex is necessary to work on all browsers. role="button" is necessary for accessibility */}
       <div
         tabIndex={0}
         role="button"
@@ -46,13 +48,13 @@ function OptionButton() {
         </svg>
       </div>
 
-      {/* close button should not be focusable so it can close the FAB when clicked. It's just a visual placeholder */}
+      {/* Close button should not be focusable so it can close the FAB when clicked. It's just a visual placeholder */}
       <div className="fab-close">
         <span className="badge shadow-sm">Close</span>{' '}
         <span className="btn btn-circle btn-lg btn-soft">✕</span>
       </div>
 
-      {/* buttons that show up when FAB is open */}
+      {/* Buttons that show up when FAB is open */}
       <div>
         <span className="badge shadow-sm">Add Content</span>{' '}
         <button
