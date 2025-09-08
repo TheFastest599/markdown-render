@@ -25,9 +25,32 @@
 
 Transform your markdown files into beautifully rendered documents with our comprehensive markdown render tool. Built with modern web technologies, it offers a seamless experience for viewing, editing, and managing markdown content with advanced features like math equations, syntax highlighting, and interactive diagrams.
 
-### 🎯 Key Highlights
+---
 
-- **🚀 Lightning Fast** - Built with Next.js 14 and optimized for performance
+## 🚀 Hybrid Rendering Strategy
+
+### **Best of Both Worlds**
+
+This project leverages **Next.js's App Router** and **Pages Router** to achieve the best of both worlds:
+
+- **App Router with React Server Components (RSC):**
+
+  - Used for static site generation (SSG) on the `/` and `/about` pages.
+  - Ensures lightning-fast page loads and SEO optimization for static content.
+  - Ideal for pages that don’t require frequent updates or dynamic data.
+
+- **Pages Router with Client-Side Rendering (CSR):**
+  - Used for dynamic `/id` pages, where content is fetched and rendered on the client.
+  - Provides a highly interactive experience for dynamic markdown content.
+  - Perfect for scenarios where user-specific or frequently updated data is required.
+
+This hybrid approach allows the app to balance **performance**, **SEO**, and **dynamic interactivity**.
+
+---
+
+## 🎯 Key Highlights
+
+- **🚀 Lightning Fast** - Static pages with SSG and dynamic pages with CSR
 - **🎨 Beautiful UI** - Modern design with DaisyUI components and Tailwind CSS
 - **🌙 Theme Support** - Dark and light modes with persistent preferences
 - **📱 Responsive** - Perfect experience across all devices
@@ -81,96 +104,3 @@ Transform your markdown files into beautifully rendered documents with our compr
    git clone https://github.com/TheFastest599/markdown-render.git
    cd markdown-render
    ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   # or
-   yarn install
-   ```
-
-3. **Start the development server**
-
-   ```bash
-   npm run dev
-   # or
-   yarn dev
-   ```
-
-4. **Open your browser**
-   ```
-   http://localhost:3000
-   ```
-
-### Production Build
-
-```bash
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
-
----
-
-## 🏗️ Technology Stack
-
-<div align="center">
-
-| Frontend                                                                              | Styling                                                                                       | State Management                                                                     | Build Tools                                                                                     |
-| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| ![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js) | ![Tailwind](https://img.shields.io/badge/Tailwind-38B2AC?style=flat-square&logo=tailwind-css) | ![Zustand](https://img.shields.io/badge/Zustand-orange?style=flat-square)            | ![Webpack](https://img.shields.io/badge/Webpack-blue?style=flat-square&logo=webpack)            |
-| ![React](https://img.shields.io/badge/React-blue?style=flat-square&logo=react)        | ![DaisyUI](https://img.shields.io/badge/DaisyUI-5A0EF8?style=flat-square)                     | ![Local Storage](https://img.shields.io/badge/LocalStorage-yellow?style=flat-square) | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript) |
-
-</div>
-
-### 📦 Key Dependencies
-
-- **[react-markdown](https://github.com/remarkjs/react-markdown)** - Core markdown rendering
-- **[remark-gfm](https://github.com/remarkjs/remark-gfm)** - GitHub Flavored Markdown support
-- **[remark-math](https://github.com/remarkjs/remark-math)** - Math equation parsing
-- **[rehype-katex](https://github.com/remarkjs/rehype-katex)** - LaTeX math rendering
-- **[rehype-prism-plus](https://github.com/timlrx/rehype-prism-plus)** - Syntax highlighting
-- **[mermaid](https://mermaid-js.github.io/)** - Diagram and flowchart rendering
-- **[@hpcc-js/wasm](https://github.com/hpcc-systems/hpcc-js-wasm)** - Graphviz support
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-```
-MIT License
-
-Copyright (c) 2025 Anirban Saha
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-```
-
----
-
-## 📞 Support
-
-- **Email**: [your-email@example.com](mailto:ribhusaha2003@gmail.com)
-- **Twitter**: [@TheFastest599](https://x.com/TheFastest599)
-- **LinkedIn**: [Anirban Saha](https://www.linkedin.com/in/anirban-saha-245640256)
-- **Website**: [portfolio](https://anirban-saha-portfolio.netlify.app)
-
----
-
-<div align="center">
-
-**⭐ Don't forget to give this project a star! ⭐**
-
-</div>
