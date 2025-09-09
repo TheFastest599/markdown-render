@@ -65,7 +65,7 @@ const useGlobalStore = create(
           const { [id]: _, ...newContents } = state.contents; // Remove the content by ID
           let newSelectedId = state.selectedId;
           if (state.selectedId === id && Object.keys(newContents).length > 0) {
-            newSelectedId = Object.keys(newContents)[0]; // Select the first available content
+            newSelectedId = null; // Select the first available content
           }
           return { contents: newContents, selectedId: newSelectedId };
         });

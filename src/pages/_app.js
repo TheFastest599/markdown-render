@@ -1,7 +1,6 @@
 import Layout from '@/components/Layout';
 import { Poppins } from 'next/font/google';
 import Head from 'next/head';
-
 const poppins = Poppins({
   variable: '--font-poppins',
   subsets: ['latin'],

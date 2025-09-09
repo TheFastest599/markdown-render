@@ -1,13 +1,17 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import useGlobalStore from '@/stores/globalStore';
 import { trackEvent } from '@/hooks/useAnalytics';
 
 function Drawer() {
   const { contents, setSelectedId, selectedId, removeContent } =
     useGlobalStore();
+
+  const router = useRouter();
+  const pathname = usePathname(); // Get the current path
 
   return (
     <div className="drawer">
@@ -59,7 +63,7 @@ function Drawer() {
                       <Link
                         href={`/${id}`}
                         className={`flex justify-between ${
-                          id === selectedId ? 'menu-active' : ''
+                          id === pathname?.split('/')[1] ? 'menu-active' : ''
                         }`}
                         onClick={() => {
                           setSelectedId(id);

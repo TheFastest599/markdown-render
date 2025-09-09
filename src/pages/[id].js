@@ -18,12 +18,12 @@ export default function ContentPage() {
   const selectedContent = useMemo(() => contents[id], [contents, id]);
 
   useEffect(() => {
-    if (id && !selectedContent) {
-      // If id is invalid, reset selectedId to null
-      showToast('Content not found. Redirecting to home.', 'error');
-      router.push('/');
-      setSelectedId(null);
-    }
+    // if (id && !selectedContent) {
+    //   // If id is invalid, reset selectedId to null
+    //   showToast('Content not found. Redirecting to home.', 'error');
+    //   router.push('/');
+    //   setSelectedId(null);
+    // }
 
     if (id && selectedContent) {
       setSelectedId(id);
