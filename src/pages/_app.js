@@ -43,7 +43,7 @@ export default function App({ Component, pageProps }) {
         <meta property="og:locale" content="en_US" />
         <meta
           property="og:image"
-          content="https://markdownrender.vercel.app/og-image.png"
+          content="https://markdownrender.vercel.app/opengraph.jpg"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -65,7 +65,7 @@ export default function App({ Component, pageProps }) {
         <meta name="twitter:creator" content="@TheFastest599" />
         <meta
           name="twitter:image"
-          content="https://markdownrender.vercel.app/twitter-image.png"
+          content="https://markdownrender.vercel.app/twitter.jpg"
         />
 
         {/* Additional Metadata */}

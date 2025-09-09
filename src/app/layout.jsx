@@ -23,7 +23,7 @@ export const metadata = {
     locale: 'en_US',
     images: [
       {
-        url: 'https://markdownrender.vercel.app/opengraph.png', // Add an Open Graph image for better previews
+        url: 'https://markdownrender.vercel.app/opengraph.jpg', // Add an Open Graph image for better previews
         alt: 'Markdown Render - Markdown Reader',
       },
     ],
@@ -34,7 +34,7 @@ export const metadata = {
     description:
       'Markdown reader for developers and students. Read notes, docs, and math with KaTeX support, syntax highlighting, mermaid diagrams, and broken AI math export fixes.',
     creator: '@TheFastest599',
-    images: ['https://markdownrender.vercel.app/opengraph.png'], // Add a Twitter-specific image
+    images: ['https://markdownrender.vercel.app/twitter.jpg'], // Add a Twitter-specific image
   },
   robots: 'index, follow',
   icons: {
