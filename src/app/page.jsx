@@ -116,7 +116,7 @@ export default function Home() {
           </label>
           <div className="collapse-content text-xs">
             Markdown Render is a dedicated markdown reader designed for
-            developers and researchers. It allows you to load, read, and manage
+            developers and students. It allows you to load, read, and manage
             markdown notes, documentation, and research papers with features
             like KaTeX math rendering, syntax highlighting, and persistent
             storage.
@@ -147,9 +147,9 @@ export default function Home() {
           </label>
           <div className="collapse-content text-xs">
             Markdown Render offers a clean reading interface, KaTeX support for
-            math formulas, syntax highlighting for code, mermaid diagrams,
-            persistent reading sessions, and the ability to export notes to PDF
-            for offline reading or sharing.
+            math formulas, syntax highlighting for code, mermaid and dot
+            diagrams for graphs, persistent reading sessions, and the ability to
+            export notes to PDF for offline reading or sharing.
           </div>
         </div>
         {/* Accordion Item 3 */}
