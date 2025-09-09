@@ -90,6 +90,13 @@ export default function App({ Component, pageProps }) {
         <link rel="about" href="https://markdownrender.vercel.app/aboutus" />
 
         {/* Theme Script */}
+        <style>
+          {`
+            body {
+              font-family: 'Poppins', sans-serif !important;
+            }
+          `}
+        </style>
         <script>
           {`(function () {
             var theme = localStorage.getItem('theme');
