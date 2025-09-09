@@ -8,6 +8,15 @@ import { useReactToPrint } from 'react-to-print';
 
 const MarkdownRenderer = lazy(() => import('@/components/MarkdownRenderer'));
 
+const LoadingSpinner = () => (
+  <div className="flex items-center justify-center min-h-[75vh] bg-base-100">
+    <div className="text-center">
+      <span className="loading loading-spinner loading-lg text-primary"></span>
+      <p className="mt-4 text-gray-500">Loading your content...</p>
+    </div>
+  </div>
+);
+
 export default function ContentPage() {
   const router = useRouter();
   const { id } = router.query;
@@ -82,7 +91,7 @@ export default function ContentPage() {
               <a>Content</a>
             </li>
             <li>
-              <a>{selectedContent.name}</a>
+              <Link href={`/${id}`}>{selectedContent.name}</Link>
             </li>
           </ul>
         </div>
@@ -119,16 +128,7 @@ export default function ContentPage() {
         data-date={new Date().toLocaleDateString()}
         data-name={selectedContent.name}
       >
-        <Suspense
-          fallback={
-            <div className="flex items-center justify-center min-h-[75vh] bg-base-100">
-              <div className="text-center">
-                <span className="loading loading-spinner loading-lg text-primary"></span>
-                <p className="mt-4 text-gray-500">Loading your content...</p>
-              </div>
-            </div>
-          }
-        >
+        <Suspense fallback={<LoadingSpinner />}>
           <MarkdownRenderer content={selectedContent.content} />
         </Suspense>
       </div>
