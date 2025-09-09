@@ -18,8 +18,15 @@ export const metadata = {
     title: 'Markdown Render - Markdown Reader for Notes, Docs & Math',
     description:
       'Read Markdown notes, study docs, developer files, and research papers in one organized library. Fix broken AI math exports, render formulas with KaTeX, highlight code, and view mermaid diagrams.',
+    url: 'https://markdownrender.vercel.app/', // Ensure this points to your home page
     type: 'website',
     locale: 'en_US',
+    images: [
+      {
+        url: 'https://markdownrender.vercel.app/opengraph.png', // Add an Open Graph image for better previews
+        alt: 'Markdown Render - Markdown Reader',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
@@ -27,6 +34,7 @@ export const metadata = {
     description:
       'Markdown reader for developers and students. Read notes, docs, and math with KaTeX support, syntax highlighting, mermaid diagrams, and broken AI math export fixes.',
     creator: '@TheFastest599',
+    images: ['https://markdownrender.vercel.app/opengraph.png'], // Add a Twitter-specific image
   },
   robots: 'index, follow',
   icons: {

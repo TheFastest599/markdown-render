@@ -11,6 +11,7 @@ export default function App({ Component, pageProps }) {
   return (
     <div className={`${poppins.variable} antialiased bg-base-100`}>
       <Head>
+        {/* General Metadata */}
         <title>
           Markdown Render - Simple Markdown Reader for Notes, Docs & Math
         </title>
@@ -27,6 +28,47 @@ export default function App({ Component, pageProps }) {
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+
+        {/* Open Graph Metadata */}
+        <meta
+          property="og:title"
+          content="Markdown Render - Markdown Reader for Notes, Docs & Math"
+        />
+        <meta
+          property="og:description"
+          content="Read Markdown notes, study docs, developer files, and research papers in one organized library. Fix broken AI math exports, render formulas with KaTeX, highlight code, and view mermaid diagrams."
+        />
+        <meta property="og:url" content="https://markdownrender.vercel.app/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_US" />
+        <meta
+          property="og:image"
+          content="https://markdownrender.vercel.app/og-image.png"
+        />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta
+          property="og:image:alt"
+          content="Markdown Render - Markdown Reader"
+        />
+
+        {/* Twitter Card Metadata */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Markdown Render - Markdown Reader for Notes & Docs"
+        />
+        <meta
+          name="twitter:description"
+          content="Markdown reader for developers and students. Read notes, docs, and math with KaTeX support, syntax highlighting, mermaid diagrams, and broken AI math export fixes."
+        />
+        <meta name="twitter:creator" content="@TheFastest599" />
+        <meta
+          name="twitter:image"
+          content="https://markdownrender.vercel.app/twitter-image.png"
+        />
+
+        {/* Additional Metadata */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Markdown Render" />
@@ -46,14 +88,8 @@ export default function App({ Component, pageProps }) {
           href="https://markdownrender.vercel.app/robots.txt"
         />
         <link rel="about" href="https://markdownrender.vercel.app/aboutus" />
-        <meta name="llm" content="false" />
-        <style>
-          {`
-    body {
-      font-family: 'Poppins', sans-serif !important;
-    }
-  `}
-        </style>
+
+        {/* Theme Script */}
         <script>
           {`(function () {
             var theme = localStorage.getItem('theme');
