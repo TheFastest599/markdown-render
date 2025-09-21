@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import useGlobalStore from '@/stores/globalStore';
 
 function AddContent() {
-  const { addContent, handleFileChange } = useGlobalStore();
+  const { addContent, handleFileChange, showToast } = useGlobalStore();
 
   const router = useRouter();
 
@@ -14,6 +14,7 @@ function AddContent() {
     const newId = await handleFileChange(files);
     e.target.value = null; // Reset file input
     if (newId) {
+      showToast('Content added successfully!', 'success');
       router.push(`/${newId}`);
     }
     document.getElementById('add_content_modal').close();
@@ -30,10 +31,11 @@ function AddContent() {
       setTextContent({ name: '', content: '' });
       document.getElementById('add_content_modal').close();
       if (newId) {
+        showToast('Content added successfully!', 'success');
         router.push(`/${newId}`);
       }
     } else {
-      alert('Please provide both name and content.');
+      showToast('Please provide both name and content.', 'error');
       document.getElementById('add_content_modal').close();
     }
   };

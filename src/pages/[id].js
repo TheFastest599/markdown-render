@@ -95,31 +95,55 @@ export default function ContentPage() {
             </li>
           </ul>
         </div>
-        {/* Print Button */}
-        <button
-          className="btn btn-sm btn-circle btn-ghost tooltip tooltip-bottom"
-          data-tip="Print to PDF"
-          onClick={() => {
-            handlePrint();
-            trackEvent('Print to PDF', 'Engagement');
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+
+        <div>
+          {/* Edit Button */}
+          <Link
+            className="btn btn-sm btn-circle btn-ghost tooltip tooltip-bottom"
+            data-tip="Edit"
+            href={`/edit/${id}`}
           >
-            <polyline points="6,9 6,2 18,2 18,9"></polyline>
-            <path d="M6,18H4a2,2,0,0,1-2-2V11a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v5a2,2,0,0,1-2,2H18"></path>
-            <polyline points="6,14 18,14 18,22 6,22 6,14"></polyline>
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+          </Link>
+          {/* Print Button */}
+          <button
+            className="btn btn-sm btn-circle btn-ghost tooltip tooltip-bottom"
+            data-tip="Print to PDF"
+            onClick={() => {
+              handlePrint();
+              trackEvent('Print to PDF', 'Engagement');
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <polyline points="6,9 6,2 18,2 18,9"></polyline>
+              <path d="M6,18H4a2,2,0,0,1-2-2V11a2,2,0,0,1,2-2H20a2,2,0,0,1,2,2v5a2,2,0,0,1-2,2H18"></path>
+              <polyline points="6,14 18,14 18,22 6,22 6,14"></polyline>
+            </svg>
+          </button>
+        </div>
       </div>
       <OptionButton />
       <div

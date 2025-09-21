@@ -59,6 +59,24 @@ const useGlobalStore = create(
         return newId;
       },
 
+      editContent: (id, newData) => {
+        set(state => {
+          if (!state.contents[id]) {
+            // If the content doesn't exist, do nothing
+            return {};
+          }
+          return {
+            contents: {
+              ...state.contents,
+              [id]: {
+                ...state.contents[id],
+                content: newData,
+              },
+            },
+          };
+        });
+      },
+
       // Remove Content
       removeContent: id => {
         set(state => {
