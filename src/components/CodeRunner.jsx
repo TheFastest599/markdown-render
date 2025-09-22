@@ -49,25 +49,33 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
 
   if (isMermaid) {
     const [svg, setSvg] = useState('');
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-      mermaid.initialize({ startOnLoad: false, theme: 'default' });
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'default',
+        suppressErrorRendering: true,
+      });
       const id = `mermaid-${Math.random().toString(36).substr(2, 9)}`;
       mermaid
         .render(id, code)
         .then(({ svg }) => setSvg(svg))
         .catch(err => {
+          setSvg('');
+          setError(err);
           console.error('Mermaid render error:', err, code, language);
-          setSvg('<pre>Error rendering Mermaid diagram</pre>');
         });
     }, [code]);
 
-    return (
+    return !error ? (
       <div
         className="my-4 bg-base-200 text-base-content  overflow-x-auto rounded-lg p-2 sm:p-4"
         data-theme="light"
         dangerouslySetInnerHTML={{ __html: svg }}
       />
+    ) : (
+      <p className="text-red-500 p-1">Error rendering Mermaid diagram!!</p>
     );
   }
 
