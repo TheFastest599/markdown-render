@@ -77,9 +77,14 @@ function EditPage() {
           value={editText}
           onChange={e => setEditText(e.target.value)}
         ></textarea>
-        <button className="btn btn-primary w-30 mt-4" type="submit">
-          Save
-        </button>
+        <div className="join gap-4">
+          <button className="btn btn-primary" type="submit">
+            Save
+          </button>
+          <Link href={`/${id}`} className="btn">
+            Cancel
+          </Link>
+        </div>
       </form>
     </main>
   );

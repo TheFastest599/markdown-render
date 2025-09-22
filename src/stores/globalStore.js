@@ -36,7 +36,7 @@ const useGlobalStore = create(
 
       // Add Content
       addContent: (data, name = 'Untitled') => {
-        const newId = name; // Use filename as ID directly
+        const newId = name.replace(/ /g, '_'); // Use filename as ID directly
 
         // Check if content with the same ID already exists
         const { contents } = get();
@@ -115,7 +115,7 @@ const useGlobalStore = create(
               const reader = new FileReader();
               reader.onload = event => {
                 resolve({
-                  id: file.name, // Use filename as ID directly
+                  id: file.name.replace(/ /g, '_'), // Use filename as ID directly
                   name: file.name,
                   content: event.target.result,
                 });

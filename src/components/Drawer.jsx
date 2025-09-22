@@ -57,7 +57,7 @@ function Drawer() {
             <ul className="menu bg-base-200 rounded-box w-full">
               <li>
                 <h2 className="menu-title">Contents</h2>
-                <ul className="max-h-96 overflow-y-auto">
+                <ul className="max-h-96  overflow-y-auto">
                   {Object.entries(contents).map(([id, item]) => (
                     <li key={id}>
                       <div
@@ -67,7 +67,7 @@ function Drawer() {
                       >
                         <Link
                           href={`/${id}`}
-                          className="truncate flex-1"
+                          className="truncate w-full max-w-50 flex-1"
                           onClick={() => {
                             setSelectedId(id);
                           }}
