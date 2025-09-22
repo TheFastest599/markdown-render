@@ -56,9 +56,10 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
       mermaid
         .render(id, code)
         .then(({ svg }) => setSvg(svg))
-        .catch(err =>
-          console.error('Mermaid render error:', err, code, language)
-        );
+        .catch(err => {
+          console.error('Mermaid render error:', err, code, language);
+          setSvg('<pre>Error rendering Mermaid diagram</pre>');
+        });
     }, [code]);
 
     return (
@@ -96,7 +97,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
           .then(el => setSvg(el.outerHTML))
           .catch(err => {
             console.error('Graphviz render failed:', err);
-            setSvg(`<pre>Error rendering DOT: ${err.message}</pre>`);
+            setSvg(`<pre>Error rendering DOT diagram</pre>`);
           });
       }
     }, [code]);
