@@ -196,6 +196,13 @@ const MarkdownRenderer = ({ content }) => {
           inlineMath({ value }) {
             return <span className="math-inline">{value}</span>;
           },
+          pre({ node, children, ...props }) {
+            return (
+              <pre className="overflow-x-auto print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid">
+                {children}
+              </pre>
+            );
+          },
           // ✅ Your existing code renderer
           code({ node, inline, className, children, ...props }) {
             return (
@@ -241,8 +248,11 @@ const MarkdownRenderer = ({ content }) => {
             );
           },
           table: ({ children, ...props }) => (
-            <div className="overflow-x-auto max-h-[80vh]" {...props}>
-              <table className="table table-sm md:table-md lg:table-lg table-zebra">
+            <div
+              className="overflow-x-auto max-h-[80vh] print:overflow-hidden print:max-h-none print:break-inside-avoid"
+              {...props}
+            >
+              <table className="table table-sm sm:table-md table-zebra">
                 {children}
               </table>
             </div>

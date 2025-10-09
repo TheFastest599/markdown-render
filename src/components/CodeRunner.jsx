@@ -24,7 +24,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
   if (!language) {
     return (
       <code
-        className="px-1 py-0.5 rounded font-mono text-sm bg-base-200 text-secondary"
+        className="px-1 py-0.5 rounded font-mono text-sm bg-base-200 text-secondary overflow-x-auto print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid"
         {...props}
       >
         {children}
@@ -129,7 +129,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
     <div className="my-0 ">
       <span className="text-xs block">{language}</span>
       <pre
-        className={`rounded-lg overflow-x-auto font-mono  bg-base-200 text-base-content ${className}`}
+        className={`rounded-lg overflow-x-auto font-mono  bg-base-200 text-base-content print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid ${className}`}
       >
         <code className={className} {...props}>
           {children}
