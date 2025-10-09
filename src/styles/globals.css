@@ -166,11 +166,11 @@ body {
 }
 
 /* Inline math (paper style) */
-.katex:not(.katex-display) {
-  font-size: 1.6em; /* slightly larger than body */
+/* .katex:not(.katex-display) {
+  font-size: 1.6em; 
   vertical-align: middle;
   line-height: 1.5;
-}
+} */
 
 @media print {
   @page {
