@@ -192,6 +192,7 @@ const MarkdownRenderer = ({ content }) => {
               </span>
             );
           },
+
           // ✅ Render inline math ($ ... $)
           inlineMath({ value }) {
             return <span className="math-inline">{value}</span>;
