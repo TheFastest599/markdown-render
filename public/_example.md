@@ -246,6 +246,109 @@ pie title "Orders"
 
 ## Graphviz / DOT
 
+### 🎨 Supervised Learning — Modern Concept Map (Graphviz / DOT)
+
+```dot
+digraph SupervisedLearning {
+    graph [bgcolor="#f8f9fa", fontname="Helvetica", fontsize=12, splines=ortho, nodesep=0.5, ranksep=0.75, pad=0.4];
+    node [shape=rect, style="rounded,filled", fontname="Helvetica", fontsize=11, color="#dee2e6", penwidth=1.2];
+    edge [color="#adb5bd", arrowsize=0.7];
+
+    subgraph cluster_supervised {
+        label="Supervised Learning";
+        color="#ced4da";
+        style="rounded";
+        fillcolor="#ffffff";
+        node [fillcolor="#e9ecef"];
+
+        Regression [label="Regression\n(Continuous Output)", fillcolor="#cfe2ff"];
+        Classification [label="Classification\n(Categorical Output)", fillcolor="#ffe8cc"];
+    }
+
+    # --- Distance-based Methods ---
+    subgraph cluster_distance {
+        label="Distance-Based Methods";
+        style="rounded,filled";
+        color="#adb5bd";
+        fillcolor="#f1f3f5";
+
+        KNN [label="K-Nearest Neighbours (KNN)", fillcolor="#d0ebff"];
+        Distance [label="Distance Metrics\n(Euclidean, Manhattan)", fillcolor="#e7f5ff"];
+    }
+
+    # --- Linear Models ---
+    subgraph cluster_linear {
+        label="Linear Models";
+        style="rounded,filled";
+        color="#adb5bd";
+        fillcolor="#f1f3f5";
+
+        LinReg [label="Linear Regression", fillcolor="#e6fcf5"];
+        LogReg [label="Logistic Regression", fillcolor="#d3f9d8"];
+        GLM [label="Generalized Linear Models (GLM)", fillcolor="#c3fae8"];
+    }
+
+    # --- Probabilistic Models ---
+    subgraph cluster_bayes {
+        label="Probabilistic Models";
+        style="rounded,filled";
+        color="#adb5bd";
+        fillcolor="#f1f3f5";
+
+        NaiveBayes [label="Naive Bayes", fillcolor="#fff3bf"];
+        ProbTheory [label="Probability Theory\n(Bayes’ Theorem)", fillcolor="#ffec99"];
+    }
+
+    # --- Decision Trees ---
+    subgraph cluster_trees {
+        label="Decision Trees";
+        style="rounded,filled";
+        color="#adb5bd";
+        fillcolor="#f1f3f5";
+
+        Tree [label="Decision Tree", fillcolor="#ffd8a8"];
+        InfoGain [label="Information Gain / Gini Index", fillcolor="#ffe8cc"];
+        Ensemble [label="Ensemble Methods\n(Random Forest, GBM)", fillcolor="#ffe066"];
+    }
+
+    # --- SVM & Kernel Methods ---
+    subgraph cluster_svm {
+        label="SVM & Kernel Methods";
+        style="rounded,filled";
+        color="#adb5bd";
+        fillcolor="#f1f3f5";
+
+        SVM [label="Support Vector Machines", fillcolor="#e5dbff"];
+        Kernel [label="Kernel Trick\n(RBF, Polynomial)", fillcolor="#d0bfff"];
+        Margin [label="Maximal Margin Classifier", fillcolor="#b197fc"];
+    }
+
+    # --- Connections ---
+    Regression -> LinReg;
+    Classification -> LogReg;
+    KNN -> Distance;
+    LinReg -> GLM;
+    LogReg -> GLM;
+    NaiveBayes -> ProbTheory;
+    Tree -> InfoGain;
+    Tree -> Ensemble;
+    SVM -> Kernel;
+    SVM -> Margin;
+
+    # --- Main Topic Links ---
+    Regression -> KNN [style=dashed];
+    Classification -> NaiveBayes [style=dashed];
+    Classification -> Tree [style=dashed];
+    Classification -> SVM [style=dashed];
+
+    # --- Titles ---
+    label="📘 Supervised Learning — Modern Concept Map";
+    labelloc="t";
+    fontsize=16;
+    fontcolor="#212529";
+}
+```
+
 ### DOT — Directed graph with clusters
 
 ```dot
