@@ -134,7 +134,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
             const svgString = el.outerHTML;
             const responsiveSvg = svgString.replace(
               '<svg',
-              '<svg style="width: auto; height: auto; max-width: 100%; max-height: 40%;"'
+              '<svg style="width: auto; height: auto; max-width: 100%; max-height: 85vh;"'
             );
             setSvg(responsiveSvg);
           })
