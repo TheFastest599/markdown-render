@@ -170,7 +170,8 @@ export default function AboutUs() {
                 <h3 className="font-semibold mb-2">📊 Visual Diagrams</h3>
                 <p className="text-sm text-base-content/70">
                   View flowcharts, sequence diagrams, and architectural diagrams
-                  directly in your reading session.
+                  directly in your reading session using Mermaid.js and
+                  Graphviz/Dot.
                 </p>
               </div>
             </div>
@@ -260,7 +261,7 @@ export default function AboutUs() {
                     <div className="badge badge-neutral badge-sm">Syntax</div>
                   </li>
                   <li className="flex justify-between items-center">
-                    <span>Mermaid</span>
+                    <span>Mermaid, Graphviz/Dot</span>
                     <div className="badge badge-neutral badge-sm">Diagrams</div>
                   </li>
                 </ul>
