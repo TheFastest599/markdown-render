@@ -75,7 +75,19 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
         dangerouslySetInnerHTML={{ __html: svg }}
       />
     ) : (
-      <p className="text-red-500 p-1">Error rendering Mermaid diagram!!</p>
+      <div className="my-0 ">
+        <span className="text-xs block">{language}</span>
+        <pre
+          className={`rounded-lg overflow-x-auto font-mono  bg-base-200 text-base-content print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid ${className}`}
+        >
+          <code className={className} {...props}>
+            {children}
+          </code>
+        </pre>
+        <p className="text-xs text-red-500 p-1">
+          Error rendering Mermaid diagram!!
+        </p>
+      </div>
     );
   }
 
