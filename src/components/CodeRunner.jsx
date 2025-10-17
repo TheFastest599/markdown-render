@@ -66,11 +66,26 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
           setError(err);
           console.error('Mermaid render error:', err, code, language);
         });
+      // mermaid
+      //   .render(id, code)
+      //   .then(({ svg }) => {
+      //     // Make SVG responsive to fit container without clipping
+      //     const responsiveSvg = svg.replace(
+      //       '<svg',
+      //       '<svg style="width: auto; height: auto; max-width: 100%; max-height: 40%;"'
+      //     );
+      //     setSvg(responsiveSvg);
+      //   })
+      //   .catch(err => {
+      //     setSvg('');
+      //     setError(err);
+      //     console.error('Mermaid render error:', err, code, language);
+      //   });
     }, [code]);
 
     return !error ? (
       <div
-        className="my-4 bg-base-200 text-base-content  overflow-x-auto rounded-lg p-2 sm:p-4"
+        className="my-4 bg-base-200 text-base-content overflow-x-hidden rounded-lg p-2 sm:p-4"
         data-theme="light"
         dangerouslySetInnerHTML={{ __html: svg }}
       />
@@ -78,7 +93,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
       <div className="my-0 ">
         <span className="text-xs block">{language}</span>
         <pre
-          className={`rounded-lg overflow-x-auto font-mono  bg-base-200 text-base-content print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid ${className}`}
+          className={`rounded-lg overflow-x-auto font-mono bg-base-200 text-base-content print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid ${className}`}
         >
           <code className={className} {...props}>
             {children}
@@ -114,7 +129,15 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
         const viz = new Viz({ Module, render });
         viz
           .renderSVGElement(code)
-          .then(el => setSvg(el.outerHTML))
+          .then(el => {
+            // Make SVG responsive to fit container without clipping
+            const svgString = el.outerHTML;
+            const responsiveSvg = svgString.replace(
+              '<svg',
+              '<svg style="width: auto; height: auto; max-width: 100%; max-height: 40%;"'
+            );
+            setSvg(responsiveSvg);
+          })
           .catch(err => {
             console.error('Graphviz render failed:', err);
             setSvg(`<pre>Error rendering DOT diagram</pre>`);
@@ -124,7 +147,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
 
     return (
       <div
-        className=" bg-base-200 text-base-content overflow-x-auto rounded-lg p-2 sm:p-4"
+        className="bg-base-200 text-base-content overflow-x-hidden rounded-lg p-2 sm:p-4"
         data-theme="light"
       >
         {svg ? (
@@ -141,7 +164,7 @@ const CodeRenderer = ({ inline, className = '', children, ...props }) => {
     <div className="my-0 ">
       <span className="text-xs block">{language}</span>
       <pre
-        className={`rounded-lg overflow-x-auto font-mono  bg-base-200 text-base-content print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid ${className}`}
+        className={`rounded-lg overflow-x-auto font-mono bg-base-200 text-base-content print:overflow-hidden print:whitespace-pre-wrap print:break-inside-avoid ${className}`}
       >
         <code className={className} {...props}>
           {children}
