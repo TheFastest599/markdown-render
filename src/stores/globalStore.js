@@ -5,7 +5,8 @@ const useGlobalStore = create(
   persist(
     (set, get) => ({
       theme: 'light',
-      contents: {}, // Changed from array to object
+      contents: {}, // Each content: { name, content, folder: null | string }
+      folders: [], // Array of folder names
       selectedId: null,
       printRef: null,
       loading: false,
@@ -52,6 +53,7 @@ const useGlobalStore = create(
             [newId]: {
               name: name,
               content: data,
+              folder: null, // Default to no folder
             },
           },
           selectedId: newId,
@@ -94,6 +96,47 @@ const useGlobalStore = create(
         set({ selectedId: id });
       },
 
+      // Create Folder
+      createFolder: name => {
+        set(state => {
+          if (state.folders.includes(name)) return {}; // Avoid duplicates
+          return { folders: [...state.folders, name] };
+        });
+      },
+
+      // Move Content to Folder
+      moveContentToFolder: (id, folderName) => {
+        set(state => {
+          if (!state.contents[id] || !state.folders.includes(folderName))
+            return {};
+          return {
+            contents: {
+              ...state.contents,
+              [id]: {
+                ...state.contents[id],
+                folder: folderName,
+              },
+            },
+          };
+        });
+      },
+
+      // Move Content Out of Folder
+      moveContentOutOfFolder: id => {
+        set(state => {
+          if (!state.contents[id]) return {};
+          return {
+            contents: {
+              ...state.contents,
+              [id]: {
+                ...state.contents[id],
+                folder: null,
+              },
+            },
+          };
+        });
+      },
+
       // Handle File Upload
       handleFileChange: async files => {
         try {
@@ -118,6 +161,7 @@ const useGlobalStore = create(
                   id: file.name.replace(/ /g, '_'), // Use filename as ID directly
                   name: file.name,
                   content: event.target.result,
+                  folder: null, // Default to no folder
                 });
               };
               reader.onerror = () =>
@@ -146,6 +190,7 @@ const useGlobalStore = create(
               [content.id]: {
                 name: content.name,
                 content: content.content,
+                folder: content.folder,
               },
             }),
             {}
@@ -193,6 +238,7 @@ const useGlobalStore = create(
                 [newId]: {
                   name: 'example.md',
                   content: content,
+                  folder: null, // Default to no folder
                 },
               },
               selectedId: newId,
@@ -217,6 +263,7 @@ const useGlobalStore = create(
       partialize: state => ({
         theme: state.theme,
         contents: state.contents,
+        folders: state.folders, // Include folders in persistence
         selectedId: state.selectedId,
       }),
       onRehydrateStorage: () => state => {

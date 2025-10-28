@@ -85,7 +85,7 @@ export default function ContentPage() {
   }
 
   return (
-    <main className="App text-sm sm:text-base max-w-6xl px-6 mx-auto">
+    <main className="App text-sm sm:text-base max-w-6xl px-6 mx-auto overflow-x-hidden">
       <div className="flex justify-between">
         <div className="breadcrumbs text-sm">
           <ul>
