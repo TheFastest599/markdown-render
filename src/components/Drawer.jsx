@@ -14,13 +14,18 @@ function Drawer() {
     selectedId,
     removeContent,
     createFolder,
+    renameFolder,
+    deleteFolder,
     moveContentToFolder,
     moveContentOutOfFolder,
   } = useGlobalStore();
   const [newFolderName, setNewFolderName] = useState('');
   const [draggedId, setDraggedId] = useState(null);
-  const [dropTarget, setDropTarget] = useState(null); // 'none' for no folder, or folder name
+  const [dropTarget, setDropTarget] = useState(null); // 'none' for no folder, or folder id
   const [showFolderInput, setShowFolderInput] = useState(false); // For inline folder creation
+  const [folderModalId, setFolderModalId] = useState(null); // For folder options modal
+  const [renameValue, setRenameValue] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // For delete confirmation modal
 
   const router = useRouter();
   const pathname = usePathname();
@@ -40,6 +45,20 @@ function Drawer() {
       setShowFolderInput(false);
       setNewFolderName('');
     }
+  };
+
+  const handleRenameFolder = () => {
+    if (renameValue.trim()) {
+      renameFolder(folderModalId, renameValue.trim());
+    }
+    setFolderModalId(null);
+    setRenameValue('');
+  };
+
+  const handleDeleteFolder = () => {
+    deleteFolder(folderModalId);
+    setShowDeleteConfirm(false);
+    setFolderModalId(null);
   };
 
   // Drag handlers
@@ -74,9 +93,10 @@ function Drawer() {
   const contentsByFolder = {};
   const rootContents = [];
   Object.entries(contents).forEach(([id, item]) => {
-    if (item.folder) {
-      if (!contentsByFolder[item.folder]) contentsByFolder[item.folder] = [];
-      contentsByFolder[item.folder].push([id, item]);
+    if (item.folderId) {
+      if (!contentsByFolder[item.folderId])
+        contentsByFolder[item.folderId] = [];
+      contentsByFolder[item.folderId].push([id, item]);
     } else {
       rootContents.push([id, item]);
     }
@@ -221,18 +241,18 @@ function Drawer() {
                   ))}
 
                   {/* Folders with Nested Menu */}
-                  {folders.map(folderName => (
-                    <li key={folderName}>
+                  {folders.map(folder => (
+                    <li key={folder.id}>
                       <details open>
                         <summary
                           className={`cursor-pointer ${
-                            dropTarget === folderName
+                            dropTarget === folder.id
                               ? 'bg-primary text-primary-content'
                               : ''
                           }`}
-                          onDragOver={e => handleDragOver(e, folderName)}
+                          onDragOver={e => handleDragOver(e, folder.id)}
                           onDragLeave={handleDragLeave}
-                          onDrop={e => handleDrop(e, folderName)}
+                          onDrop={e => handleDrop(e, folder.id)}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -248,10 +268,35 @@ function Drawer() {
                           >
                             <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
                           </svg>{' '}
-                          {folderName}
+                          {folder.name}
+                          <button
+                            className="btn btn-square btn-ghost btn-xs ml-2"
+                            onClick={e => {
+                              e.stopPropagation();
+                              setFolderModalId(folder.id);
+                              setRenameValue(folder.name);
+                            }}
+                          >
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="lucide lucide-ellipsis-vertical-icon lucide-ellipsis-vertical"
+                            >
+                              <circle cx="12" cy="12" r="1" />
+                              <circle cx="12" cy="5" r="1" />
+                              <circle cx="12" cy="19" r="1" />
+                            </svg>
+                          </button>
                         </summary>
                         <ul>
-                          {(contentsByFolder[folderName] || []).map(
+                          {(contentsByFolder[folder.id] || []).map(
                             ([id, item]) => (
                               <li
                                 key={id}
@@ -331,6 +376,74 @@ function Drawer() {
           </div>
         </div>
       </div>
+
+      {/* Folder Options Modal */}
+      {folderModalId && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Folder Options</h3>
+            <div className="py-4">
+              <input
+                type="text"
+                placeholder="New folder name"
+                className="input input-bordered input-sm w-full"
+                value={renameValue}
+                onChange={e => setRenameValue(e.target.value)}
+              />
+            </div>
+            <div className="modal-action">
+              <button
+                className="btn btn-sm btn-soft"
+                onClick={handleRenameFolder}
+              >
+                Rename
+              </button>
+              <button
+                className="btn btn-error btn-soft btn-sm"
+                onClick={() => setShowDeleteConfirm(true)}
+              >
+                Delete
+              </button>
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={() => {
+                  setFolderModalId(null);
+                  setRenameValue('');
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="modal modal-open">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm Delete</h3>
+            <p className="py-4">
+              Are you sure you want to delete this folder? Contents will be
+              moved to root.
+            </p>
+            <div className="modal-action">
+              <button
+                className="btn btn-error btn-sm"
+                onClick={handleDeleteFolder}
+              >
+                Yes
+              </button>
+              <button
+                className="btn btn-ghost btn-sm"
+                onClick={() => setShowDeleteConfirm(false)}
+              >
+                No
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

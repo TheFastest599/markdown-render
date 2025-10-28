@@ -81,7 +81,7 @@ const MarkdownRenderer = ({ content }) => {
   }, []);
 
   return (
-    <div className="markdown-body  dark:prose-invert ">
+    <div className="markdown-body  dark:prose-invert break-words">
       <ReactMarkdown
         children={fixMath(content)}
         remarkPlugins={[remarkGfm, remarkMath]}

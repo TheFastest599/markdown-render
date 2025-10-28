@@ -5,14 +5,14 @@ const useGlobalStore = create(
   persist(
     (set, get) => ({
       theme: 'light',
-      contents: {}, // Each content: { name, content, folder: null | string }
-      folders: [], // Array of folder names
+      contents: {}, // Each content: { name, content, folderId: null | string }
+      folders: [], // Array of { id: string, name: string }
       selectedId: null,
       printRef: null,
       loading: false,
       isHydrated: false,
       message: '',
-      type: 'info', // 'info', 'success', 'error', etc.
+      type: 'info',
       visible: false,
 
       // Toast Functions
@@ -37,13 +37,11 @@ const useGlobalStore = create(
 
       // Add Content
       addContent: (data, name = 'Untitled') => {
-        const newId = name.replace(/ /g, '_'); // Use filename as ID directly
+        const newId = name.replace(/ /g, '_');
 
-        // Check if content with the same ID already exists
         const { contents } = get();
         if (contents[newId]) {
-          // Content already exists, don't add duplicate
-          set({ selectedId: newId }); // Just select the existing one
+          set({ selectedId: newId });
           return newId;
         }
 
@@ -53,7 +51,7 @@ const useGlobalStore = create(
             [newId]: {
               name: name,
               content: data,
-              folder: null, // Default to no folder
+              folderId: null, // Default to no folder
             },
           },
           selectedId: newId,
@@ -63,10 +61,7 @@ const useGlobalStore = create(
 
       editContent: (id, newData) => {
         set(state => {
-          if (!state.contents[id]) {
-            // If the content doesn't exist, do nothing
-            return {};
-          }
+          if (!state.contents[id]) return {};
           return {
             contents: {
               ...state.contents,
@@ -82,39 +77,64 @@ const useGlobalStore = create(
       // Remove Content
       removeContent: id => {
         set(state => {
-          const { [id]: _, ...newContents } = state.contents; // Remove the content by ID
+          const { [id]: _, ...newContents } = state.contents;
           let newSelectedId = state.selectedId;
           if (state.selectedId === id && Object.keys(newContents).length > 0) {
-            newSelectedId = null; // Select the first available content
+            newSelectedId = null;
           }
           return { contents: newContents, selectedId: newSelectedId };
         });
       },
 
       // Set Selected Content
-      setSelectedId: id => {
-        set({ selectedId: id });
-      },
+      setSelectedId: id => set({ selectedId: id }),
 
       // Create Folder
       createFolder: name => {
         set(state => {
-          if (state.folders.includes(name)) return {}; // Avoid duplicates
-          return { folders: [...state.folders, name] };
+          const newId = `folder_${Date.now()}`; // Generate unique ID
+          if (state.folders.some(f => f.name === name)) return {}; // Avoid duplicates
+          return { folders: [...state.folders, { id: newId, name }] };
+        });
+      },
+
+      // Rename Folder
+      renameFolder: (id, newName) => {
+        set(state => ({
+          folders: state.folders.map(f =>
+            f.id === id ? { ...f, name: newName } : f
+          ),
+        }));
+      },
+
+      // Delete Folder
+      deleteFolder: id => {
+        set(state => {
+          const newFolders = state.folders.filter(f => f.id !== id);
+          const newContents = Object.fromEntries(
+            Object.entries(state.contents).map(([cid, c]) => [
+              cid,
+              c.folderId === id ? { ...c, folderId: null } : c,
+            ])
+          );
+          return { folders: newFolders, contents: newContents };
         });
       },
 
       // Move Content to Folder
-      moveContentToFolder: (id, folderName) => {
+      moveContentToFolder: (id, folderId) => {
         set(state => {
-          if (!state.contents[id] || !state.folders.includes(folderName))
+          if (
+            !state.contents[id] ||
+            !state.folders.some(f => f.id === folderId)
+          )
             return {};
           return {
             contents: {
               ...state.contents,
               [id]: {
                 ...state.contents[id],
-                folder: folderName,
+                folderId,
               },
             },
           };
@@ -130,7 +150,7 @@ const useGlobalStore = create(
               ...state.contents,
               [id]: {
                 ...state.contents[id],
-                folder: null,
+                folderId: null,
               },
             },
           };
@@ -158,10 +178,10 @@ const useGlobalStore = create(
               const reader = new FileReader();
               reader.onload = event => {
                 resolve({
-                  id: file.name.replace(/ /g, '_'), // Use filename as ID directly
+                  id: file.name.replace(/ /g, '_'),
                   name: file.name,
                   content: event.target.result,
-                  folder: null, // Default to no folder
+                  folderId: null, // Default to no folder
                 });
               };
               reader.onerror = () =>
@@ -172,14 +192,12 @@ const useGlobalStore = create(
 
           const newContents = await Promise.all(files.map(readFile));
 
-          // Filter out files that already exist
           const { contents } = get();
           const uniqueNewContents = newContents.filter(
             newContent => !contents[newContent.id]
           );
 
           if (uniqueNewContents.length === 0) {
-            // All files already exist, just select the first one
             toggleLoading(false);
             return newContents[0]?.id || null;
           }
@@ -190,7 +208,7 @@ const useGlobalStore = create(
               [content.id]: {
                 name: content.name,
                 content: content.content,
-                folder: content.folder,
+                folderId: content.folderId,
               },
             }),
             {}
@@ -218,12 +236,10 @@ const useGlobalStore = create(
           const { toggleLoading } = useGlobalStore.getState();
           toggleLoading(true);
 
-          const newId = 'example.md'; // Use filename as ID directly
+          const newId = 'example.md';
 
-          // Check if example.md already exists
           const { contents } = get();
           if (contents[newId]) {
-            // Example already exists, just select it
             set({ selectedId: newId });
             toggleLoading(false);
             return newId;
@@ -238,7 +254,7 @@ const useGlobalStore = create(
                 [newId]: {
                   name: 'example.md',
                   content: content,
-                  folder: null, // Default to no folder
+                  folderId: null, // Default to no folder
                 },
               },
               selectedId: newId,
@@ -259,18 +275,15 @@ const useGlobalStore = create(
       },
     }),
     {
-      name: 'markdown-renderer-V0', // Key for localStorage
+      name: 'markdown-renderer-V0',
       partialize: state => ({
         theme: state.theme,
         contents: state.contents,
-        folders: state.folders, // Include folders in persistence
+        folders: state.folders,
         selectedId: state.selectedId,
       }),
       onRehydrateStorage: () => state => {
-        // This callback is called when rehydration is complete
-        if (state) {
-          state.setHydrated();
-        }
+        if (state) state.setHydrated();
       },
     }
   )
