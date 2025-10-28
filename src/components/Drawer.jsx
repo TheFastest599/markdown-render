@@ -179,7 +179,7 @@ function Drawer() {
                     </svg>
                   </button>
                 </h2>
-                <ul className="max-h-96 overflow-y-auto">
+                <ul className="max-h-[50vh] overflow-y-auto">
                   {/* Inline Folder Creation Input */}
                   {showFolderInput && (
                     <li>
@@ -312,7 +312,7 @@ function Drawer() {
                                 >
                                   <Link
                                     href={`/${id}`}
-                                    className="truncate w-full max-w-50 flex-1"
+                                    className="truncate w-full max-w-44 flex-1"
                                     onClick={() => setSelectedId(id)}
                                   >
                                     {item.name}
