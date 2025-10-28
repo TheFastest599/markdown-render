@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, Suspense, lazy, useMemo } from 'react';
+import 'katex/dist/katex.min.css';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import OptionButton from '@/components/OptionButton';
@@ -58,6 +59,7 @@ export default function ContentPage() {
     contentRef: printRef,
     documentTitle: selectedContent?.name?.split('.')[0] || 'Document',
     removeAfterPrint: false,
+    ignoreGlobalStyles: false,
   });
 
   useEffect(() => {

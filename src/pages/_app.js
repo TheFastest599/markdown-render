@@ -1,6 +1,8 @@
 import Layout from '@/components/Layout';
 import { Poppins } from 'next/font/google';
 import Head from 'next/head';
+import Script from 'next/script';
+
 const poppins = Poppins({
   variable: '--font-poppins',
   subsets: ['latin'],
@@ -103,6 +105,10 @@ export default function App({ Component, pageProps }) {
             theme && document.documentElement.setAttribute('data-theme', theme);
           })();`}
         </script>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+        />
       </Head>
       <Layout>
         <Component {...pageProps} />
