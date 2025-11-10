@@ -15,7 +15,7 @@ Clustering groups similar data points without labels. It's useful for segmentati
 
 ### 1.1 K-means
 
-- **Definition**: Partitions data into K clusters by minimizing the within-cluster variance (objective: **\$ J = \sum*{i=1}^{K} \sum*{x \in C_i} \| x - \mu_i \|^2 \$**, where $\mu_i$ is the centroid).
+- **Definition**: Partitions data into K clusters by minimizing the within-cluster variance (objective: **$ J = \sum*{i=1}^{K} \sum*{x \in C_i} \| x - \mu_i \|^2 $**, where $\mu_i$ is the centroid).
 - **Algorithm Steps**:
 
 1. Initialize K centroids (randomly or via K-means++ for better results).
@@ -33,7 +33,7 @@ Clustering groups similar data points without labels. It's useful for segmentati
 
 ### 1.2 Kernel K-means
 
-- **Definition**: Extends K-means to non-linear clusters by mapping data to a higher-dimensional space using a kernel function (e.g., RBF: **\$ K(x, y) = \exp(-\gamma \| x - y \|^2) \$**).
+- **Definition**: Extends K-means to non-linear clusters by mapping data to a higher-dimensional space using a kernel function (e.g., RBF: **$ K(x, y) = \exp(-\gamma \| x - y \|^2) $**).
 - **How it Works**: Computes distances in kernel space without explicit mapping (kernel trick). The objective is similar to K-means but uses kernel matrix.
 - **Algorithm**: Similar to K-means, but assignments use kernel-based distances.
 - **Advantages**: Handles complex shapes (e.g., moons or circles).

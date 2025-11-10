@@ -49,6 +49,13 @@ function fixMath(content) {
   // 7. Remove stray "math\n" prefixes from AI exports
   fixed = fixed.replace(/(^|\n)math\s*\n/g, '$1');
 
+  // 8. Protect inline math from being treated as code in nested contexts
+  // Add zero-width spaces around $ to prevent markdown from treating as code
+  fixed = fixed.replace(/(\s)\$([^\$\n]+?)\$/g, '$1$\u200B$2$\u200B$');
+
+  // 9. Escape single asterisks to prevent unwanted italics
+  fixed = fixed.replace(/\*+/g, match => (match.length === 1 ? '\\*' : match));
+
   return fixed;
 }
 
@@ -83,7 +90,7 @@ const MarkdownRenderer = ({ content }) => {
   return (
     <div className="markdown-body  dark:prose-invert break-words">
       <ReactMarkdown
-        children={fixMath(content)}
+        children={content}
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
           rehypeKatex,
@@ -187,14 +194,18 @@ const MarkdownRenderer = ({ content }) => {
             return (
               <span className="math-block">
                 {/* rehype-katex will handle rendering */}
-                {value}
+                {value ? fixMath(value) : null}
               </span>
             );
           },
 
           // ✅ Render inline math ($ ... $)
           inlineMath({ value }) {
-            return <span className="math-inline">{value}</span>;
+            return (
+              <span className="math-inline">
+                {value ? fixMath(value) : null}
+              </span>
+            );
           },
           pre({ node, children, ...props }) {
             return (
