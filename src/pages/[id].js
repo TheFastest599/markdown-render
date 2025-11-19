@@ -150,7 +150,7 @@ export default function ContentPage() {
       <OptionButton />
       <div
         ref={printRef}
-        className="prose max-w-none print-transform"
+        className="prose max-w-none "
         data-date={new Date().toLocaleDateString()}
         data-name={selectedContent.name}
       >
