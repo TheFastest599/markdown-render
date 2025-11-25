@@ -69,7 +69,7 @@ export default function Layout({ children }) {
               </svg>
             </a>
             <a
-              href="mailto:anirban@example.com?subject=Contact from Markdown Render"
+              href="mailto:ribhusaha2003@gmail.com?subject=Contact from Markdown Render"
               className="btn btn-ghost btn-sm btn-square rounded-full"
             >
               <svg
