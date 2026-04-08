@@ -5,13 +5,20 @@ import { useRouter } from 'next/navigation';
 import useGlobalStore from '@/stores/globalStore';
 
 function AddContent() {
-  const { addContent, handleFileChange, showToast } = useGlobalStore();
+  const {
+    addContent,
+    handleFileChange,
+    showToast,
+    folders,
+    addContentTargetFolderId,
+    setAddContentTargetFolder,
+  } = useGlobalStore();
 
   const router = useRouter();
 
   const handleFileChangeWrapper = async e => {
     const files = Array.from(e.target.files);
-    const newId = await handleFileChange(files);
+    const newId = await handleFileChange(files, addContentTargetFolderId);
     e.target.value = null; // Reset file input
     if (newId) {
       showToast('Content added successfully!', 'success');
@@ -27,7 +34,11 @@ function AddContent() {
 
   const handlePasteAdd = async () => {
     if (textContent.content.trim() && textContent.name.trim()) {
-      const newId = await addContent(textContent.content, textContent.name);
+      const newId = await addContent(
+        textContent.content,
+        textContent.name,
+        addContentTargetFolderId,
+      );
       setTextContent({ name: '', content: '' });
       document.getElementById('add_content_modal').close();
       if (newId) {
@@ -40,10 +51,23 @@ function AddContent() {
     }
   };
 
+  const targetFolderName = folders.find(
+    folder => folder.id === addContentTargetFolderId,
+  )?.name;
+
+  const handleModalClose = () => {
+    setTextContent({ name: '', content: '' });
+    setAddContentTargetFolder(null);
+  };
+
   return (
-    <dialog id="add_content_modal" className="modal">
+    <dialog id="add_content_modal" className="modal" onClose={handleModalClose}>
       <div className="modal-box max-w-2xl">
-        <h3 className="font-bold text-xl mb-6">Add New Content</h3>
+        <h3 className="font-bold text-xl mb-6">
+          {targetFolderName
+            ? `Add Content to ${targetFolderName}`
+            : 'Add New Content'}
+        </h3>
 
         {/* File Upload Section */}
         <div className="mb-6">

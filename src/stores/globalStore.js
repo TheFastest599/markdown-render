@@ -14,6 +14,7 @@ const useGlobalStore = create(
       message: '',
       type: 'info',
       visible: false,
+      addContentTargetFolderId: null,
 
       // Toast Functions
       showToast: (message, type = 'info') =>
@@ -26,6 +27,10 @@ const useGlobalStore = create(
       // Hydration State
       setHydrated: () => set({ isHydrated: true }),
 
+      // Add Content Modal Context
+      setAddContentTargetFolder: folderId =>
+        set({ addContentTargetFolderId: folderId }),
+
       // Theme Management
       setTheme: theme => {
         set({ theme });
@@ -36,7 +41,7 @@ const useGlobalStore = create(
       },
 
       // Add Content
-      addContent: (data, name = 'Untitled') => {
+      addContent: (data, name = 'Untitled', folderId = null) => {
         const newId = name.replace(/ /g, '_');
 
         const { contents } = get();
@@ -51,7 +56,7 @@ const useGlobalStore = create(
             [newId]: {
               name: name,
               content: data,
-              folderId: null, // Default to no folder
+              folderId,
             },
           },
           selectedId: newId,
@@ -102,7 +107,7 @@ const useGlobalStore = create(
       renameFolder: (id, newName) => {
         set(state => ({
           folders: state.folders.map(f =>
-            f.id === id ? { ...f, name: newName } : f
+            f.id === id ? { ...f, name: newName } : f,
           ),
         }));
       },
@@ -112,12 +117,17 @@ const useGlobalStore = create(
         set(state => {
           const newFolders = state.folders.filter(f => f.id !== id);
           const newContents = Object.fromEntries(
-            Object.entries(state.contents).map(([cid, c]) => [
-              cid,
-              c.folderId === id ? { ...c, folderId: null } : c,
-            ])
+            Object.entries(state.contents).filter(([, c]) => c.folderId !== id),
           );
-          return { folders: newFolders, contents: newContents };
+
+          return {
+            folders: newFolders,
+            contents: newContents,
+            addContentTargetFolderId:
+              state.addContentTargetFolderId === id
+                ? null
+                : state.addContentTargetFolderId,
+          };
         });
       },
 
@@ -158,7 +168,7 @@ const useGlobalStore = create(
       },
 
       // Handle File Upload
-      handleFileChange: async files => {
+      handleFileChange: async (files, folderId = null) => {
         try {
           const { toggleLoading } = get();
           toggleLoading(true);
@@ -169,8 +179,8 @@ const useGlobalStore = create(
               if (ext !== 'md' && ext !== 'txt') {
                 reject(
                   new Error(
-                    'Please select markdown (.md) or text (.txt) files.'
-                  )
+                    'Please select markdown (.md) or text (.txt) files.',
+                  ),
                 );
                 return;
               }
@@ -181,7 +191,7 @@ const useGlobalStore = create(
                   id: file.name.replace(/ /g, '_'),
                   name: file.name,
                   content: event.target.result,
-                  folderId: null, // Default to no folder
+                  folderId,
                 });
               };
               reader.onerror = () =>
@@ -194,7 +204,7 @@ const useGlobalStore = create(
 
           const { contents } = get();
           const uniqueNewContents = newContents.filter(
-            newContent => !contents[newContent.id]
+            newContent => !contents[newContent.id],
           );
 
           if (uniqueNewContents.length === 0) {
@@ -211,7 +221,7 @@ const useGlobalStore = create(
                 folderId: content.folderId,
               },
             }),
-            {}
+            {},
           );
 
           set(state => ({
@@ -285,8 +295,8 @@ const useGlobalStore = create(
       onRehydrateStorage: () => state => {
         if (state) state.setHydrated();
       },
-    }
-  )
+    },
+  ),
 );
 
 // Hook to check if store is hydrated

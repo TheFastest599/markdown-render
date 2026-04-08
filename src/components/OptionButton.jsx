@@ -7,7 +7,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 function OptionButton() {
-  const { contents, selectedId, printRef } = useGlobalStore();
+  const { contents, selectedId, printRef, setAddContentTargetFolder } =
+    useGlobalStore();
 
   const { scrollDirection } = useScroll();
 
@@ -85,6 +86,7 @@ function OptionButton() {
         <button
           className="btn btn-lg btn-circle"
           onClick={() => {
+            setAddContentTargetFolder(null);
             document.getElementById('add_content_modal').showModal();
             trackEvent('Add Content', 'Engagement');
           }}

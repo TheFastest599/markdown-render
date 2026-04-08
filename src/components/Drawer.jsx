@@ -11,13 +11,13 @@ function Drawer() {
     contents,
     folders,
     setSelectedId,
-    selectedId,
     removeContent,
     createFolder,
     renameFolder,
     deleteFolder,
     moveContentToFolder,
     moveContentOutOfFolder,
+    setAddContentTargetFolder,
   } = useGlobalStore();
   const [newFolderName, setNewFolderName] = useState('');
   const [draggedId, setDraggedId] = useState(null);
@@ -27,7 +27,6 @@ function Drawer() {
   const [renameValue, setRenameValue] = useState('');
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false); // For delete confirmation modal
 
-  const router = useRouter();
   const pathname = usePathname();
 
   const handleCreateFolder = () => {
@@ -269,31 +268,52 @@ function Drawer() {
                             <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z" />
                           </svg>{' '}
                           {folder.name}
-                          <button
-                            className="btn btn-square btn-ghost btn-xs ml-2"
-                            onClick={e => {
-                              e.stopPropagation();
-                              setFolderModalId(folder.id);
-                              setRenameValue(folder.name);
-                            }}
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="lucide lucide-ellipsis-vertical-icon lucide-ellipsis-vertical"
+                          <div>
+                            <button
+                              className="btn btn-square btn-ghost btn-xs ml-2"
+                              aria-label={`add content to ${folder.name}`}
+                              onClick={e => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setAddContentTargetFolder(folder.id);
+                                document
+                                  .getElementById('add_content_modal')
+                                  .showModal();
+                                trackEvent(
+                                  'Add Content To Folder',
+                                  'Engagement',
+                                );
+                              }}
                             >
-                              <circle cx="12" cy="12" r="1" />
-                              <circle cx="12" cy="5" r="1" />
-                              <circle cx="12" cy="19" r="1" />
-                            </svg>
-                          </button>
+                              +
+                            </button>
+                            <button
+                              className="btn btn-square btn-ghost btn-xs ml-1"
+                              onClick={e => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                setFolderModalId(folder.id);
+                                setRenameValue(folder.name);
+                              }}
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                className="lucide lucide-ellipsis-vertical-icon lucide-ellipsis-vertical"
+                              >
+                                <circle cx="12" cy="12" r="1" />
+                                <circle cx="12" cy="5" r="1" />
+                                <circle cx="12" cy="19" r="1" />
+                              </svg>
+                            </button>
+                          </div>
                         </summary>
                         <ul>
                           {(contentsByFolder[folder.id] || []).map(
@@ -361,6 +381,7 @@ function Drawer() {
             <button
               className="btn btn-wide mb-2"
               onClick={() => {
+                setAddContentTargetFolder(null);
                 document.getElementById('add_content_modal').showModal();
                 trackEvent('Add Content', 'Engagement');
               }}
@@ -424,8 +445,8 @@ function Drawer() {
           <div className="modal-box">
             <h3 className="font-bold text-lg">Confirm Delete</h3>
             <p className="py-4">
-              Are you sure you want to delete this folder? Contents will be
-              moved to root.
+              Are you sure you want to delete this folder? This will permanently
+              delete the folder and all contents inside it.
             </p>
             <div className="modal-action">
               <button

@@ -7,7 +7,12 @@ import { trackEvent } from '@/hooks/useAnalytics';
 
 export default function Home() {
   const router = useRouter();
-  const { loadExampleContent, contents, selectedId } = useGlobalStore();
+  const {
+    loadExampleContent,
+    contents,
+    selectedId,
+    setAddContentTargetFolder,
+  } = useGlobalStore();
 
   return (
     <main className="flex flex-col items-center justify-center min-h-[83vh] text-base-content/60 px-4">
@@ -26,6 +31,7 @@ export default function Home() {
         <button
           className="btn btn-wide "
           onClick={() => {
+            setAddContentTargetFolder(null);
             document.getElementById('add_content_modal').showModal();
             trackEvent('Add Content', 'Engagement');
           }}
