@@ -243,7 +243,7 @@ function Drawer() {
                   {/* Folders with Nested Menu */}
                   {folders.map(folder => (
                     <li key={folder.id}>
-                      <details open>
+                      <details>
                         <summary
                           className={`cursor-pointer ${
                             dropTarget === folder.id
@@ -340,7 +340,7 @@ function Drawer() {
                                   </button>
                                 </div>
                               </li>
-                            )
+                            ),
                           )}
                         </ul>
                       </details>
